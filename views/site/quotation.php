@@ -39,6 +39,8 @@ $this->params['breadcrumbs'][] = $this->title;
         <hr/>
 
         <div class="row">
+
+        	<!-- MASTER Quotation -->
         	<div class="col-md-6">
         		<?php $form = ActiveForm::begin(
             		[
@@ -150,6 +152,9 @@ $this->params['breadcrumbs'][] = $this->title;
                     </div>
                 <?php ActiveForm::end(); ?>
         	</div>
+
+        	<!-- CHILD Quotation -->
+        	<div class="dynamicPackage"></div>
         	<div class="col-md-6">
         	<?php $form = ActiveForm::begin(
         		[
@@ -161,32 +166,88 @@ $this->params['breadcrumbs'][] = $this->title;
 				]
         	); 
             ?>
-			<div id="dynamicInput"></div>
             <?= $form->field($model, 'Package_Name', ['template' => '
 				   	<div class="col-sm-4">{label}</div>
 				   	<div class="col-sm-8">
 				       <div class="input-group col-sm-10 ">
 				          <span class="input-group-addon">
-				             <span class="glyphicon glyphicon-resize-vertical"></span>
+				             <span class="glyphicon glyphicon-th-large"></span>
 				          </span>
 				          {input}
 				   	</div>
-					<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="">Add</button>
-					
 			       	</div>
 				    '])->dropDownList($model->getPackage(), ['prompt'=>'- Select -']); ?>
-			
-			
+            <?= $form->field($model, 'Laboratory_Service_Description', ['template' => '
+				   	<div class="col-sm-4">{label}</div>
+				   	<div class="col-sm-8">
+				       <div class="input-group col-sm-10 ">
+				          <span class="input-group-addon">
+				             <span class="glyphicon glyphicon-th-large"></span>
+				          </span>
+				          {input}
+				   	</div>
+			       	</div>
+				    '])->textarea(['rows' => 3]); ?>
+            <?= $form->field($model, 'Temporary_Lab_Number', ['template' => '
+				   	<div class="col-sm-4">{label}</div>
+				   	<div class="col-sm-8">
+				       <div class="input-group col-sm-10 ">
+				          <span class="input-group-addon">
+				             <span class="glyphicon glyphicon-th-large"></span>
+				          </span>
+				          {input}
+				   	</div>
+			       	</div>
+				    '])->textInput(); ?>
+			<?= $form->field($model, 'Sales_Price', ['template' => '
+				   	<div class="col-sm-4">{label}</div>
+				   	<div class="col-sm-8">
+				       <div class="input-group col-sm-10 ">
+				          <span class="input-group-addon">
+				             <span class="glyphicon glyphicon-th-large"></span>
+				          </span>
+				          {input}
+				   	</div>
+			       	</div>
+				    '])->textInput(); ?>
+			<?= $form->field($model, 'Sales_Quantity', ['template' => '
+				   	<div class="col-sm-4">{label}</div>
+				   	<div class="col-sm-8">
+				       <div class="input-group col-sm-10 ">
+				          <span class="input-group-addon">
+				             <span class="glyphicon glyphicon-th-large"></span>
+				          </span>
+				          {input}
+				   	</div>
+			       	</div>
+				    '])->textInput(); ?>
+			<?= $form->field($model, 'Notes', ['template' => '
+				   	<div class="col-sm-4">{label}</div>
+				   	<div class="col-sm-8">
+				       <div class="input-group col-sm-10 ">
+				          <span class="input-group-addon">
+				             <span class="glyphicon glyphicon-th-large"></span>
+				          </span>
+				          {input}
+				   	</div>
+			       	</div>
+				    '])->textarea(['rows' => 2]); ?>
             <?php ActiveForm::end(); ?>
+
+	        <div class="form-group">
+	            <div class="col-lg-offset-4 col-lg-4">
+	                <?= Html::submitButton('Add', ['class' => 'btn btn-primary btnadd', 'name' => 'contact-button']) ?>
+	                <?= Html::resetButton('Reset', ['class' => 'btn btn-default', 'name' => 'reset-button']) ?>
+                </div>
+            </div>
+
 
             <?php 
             $this->registerJs(''
-            	. 'var v = $("#quotationform-package_name option:selected").text();'
-            	. '$("#btnadd").on("click",function(){'
-				. 	'$("#dynamicInput").append(\''
+            	. '$(".btnadd").on("click",function(){'
+				. 	'$(".dynamicPackage").append(\''
 				. 		'<div class="col-sm-4">&nbsp;</div>'
 				. 		'<div class="col-sm-8">'
-			    . 		"'+v+'"	
 			    . 		'</div>'
 			    . 	'\');'
 				. '})');

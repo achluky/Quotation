@@ -52,6 +52,12 @@ AppAsset::register($this);
                 'url' => ['packages/index'],
                 'visible' => !Yii::$app->user->isGuest
             ],
+            [
+                'label' => 'Customers',
+                'url' => ['customers/index'],
+                'visible' => !Yii::$app->user->isGuest
+            ],
+
             Yii::$app->user->isGuest ? (
                 ['label' => 'Login', 'url' => ['/site/login']]
             ) : (          

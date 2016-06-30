@@ -25,6 +25,12 @@ class QuotationForm extends Model
     public $Package_Name;
     public $verifyCode;
 
+    public $Laboratory_Service_Description;
+    public $Temporary_Lab_Number;
+    public $Sales_Price;
+    public $Sales_Quantity;
+    public $Notes;
+
 
     /**
      * @return array the validation rules.
@@ -45,7 +51,13 @@ class QuotationForm extends Model
                     'Attachment_File',
                     'Cc_to_patrolab_email',
                     'Package_ID',
-                    'Package_Name'
+                    'Package_Name',
+
+                    'Laboratory_Service_Description',
+                    'Temporary_Lab_Number',
+                    'Sales_Price',
+                    'Sales_Quantity',
+                    'Notes'
                 ], 
                 'required'
             ],
