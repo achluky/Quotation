@@ -152,6 +152,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
         	<!-- CHILD Quotation -->
         	<div class="col-md-6">
+        		<div class="breadcrumb list_package">
+        			<p><b>List Package Quotation</b></p>
+        		</div>
         		<div class="status"></div>
 				<div class="form-horizontal">
 		            <?= $form->field($model, 'Package_Name', ['template' => '

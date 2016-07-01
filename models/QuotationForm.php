@@ -89,7 +89,6 @@ class QuotationForm extends Model
                 ->setSubject($this->subject)
                 ->setTextBody($this->body)
                 ->send();
-
             return true;
         }
         return false;

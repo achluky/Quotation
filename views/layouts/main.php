@@ -153,6 +153,7 @@ $(document).ready(function () {
                       "<p>Package in Quotation Number ."+quotationform_quotation_number+" Save."+
                       "</p>"+
                     "</div>" );
+                $( ".list_package").append("<p><span class='glyphicon glyphicon-ok'></span> "+Package_ID+"</p>");
             }else{
                 $( ".status" ).append( "<div class=\"alert alert-danger alert-dismissible fade in\" role=\"alert\">"+
                       "<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">×</span></button>"+
