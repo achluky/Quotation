@@ -94,6 +94,15 @@ class SiteController extends Controller
         return $this->render('quotation', ['model' => $model]);
     }
 
-    public function actionSave_package(){
+    public function actionQuotation_child()
+    {    
+        $model = new QuotationForm();
+        if (isset($_POST)) {
+            if($model->savePackage_child($_POST)){
+                echo json_encode(array('status'=>true, 'info'=> $_POST));
+            }else{
+                echo json_encode(array('status'=>false));
+            }
+        }
     }
 }

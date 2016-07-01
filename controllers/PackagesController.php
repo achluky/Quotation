@@ -131,7 +131,7 @@ class PackagesController extends Controller
         if (isset($_POST)) {
             $model->attributes=$_POST;
             if($model->save()){
-            return $this->redirect(['site/quotation']);
+                echo json_encode(array('status'=>'successful'));
             }else{
                 echo json_encode(array('status'=>'failed'));
             }

@@ -63,7 +63,7 @@ $this->params['breadcrumbs'][] = $this->title;
 						          {input}
 						       </div>
 						   </div>
-						   '])->textInput(['autofocus' => true]) ?>
+						   '])->textInput(['autofocus' => true, 'value'=>"Q-PETROLAB-".date("dmYims")]) ?>
                     <?= $form->field($model, 'Quotation_Date', ['template' => '
 						   <div class="col-sm-4">{label}</div>
 						   <div class="col-sm-8">
@@ -138,12 +138,9 @@ $this->params['breadcrumbs'][] = $this->title;
 						   <div class="col-sm-4">{label}</div>
 						   <div class="col-sm-8">
 						       <div class="input-group col-sm-5 ">
-						          <span class="input-group-addon">
-						             <span class="glyphicon glyphicon-file"></span>
-						          </span>
 						          {input}
 						       </div>
-						   </div>']) ?>
+						   </div>']) ->fileInput()?>
 			        <div class="form-group">
 			            <div class="col-lg-offset-4 col-lg-11">
                         <?= Html::submitButton('Save', ['class' => 'btn btn-primary', 'name' => 'contact-button']) ?>
@@ -154,144 +151,83 @@ $this->params['breadcrumbs'][] = $this->title;
         	</div>
 
         	<!-- CHILD Quotation -->
-        	<div class="dynamicPackage"></div>
         	<div class="col-md-6">
-        	<?php $form = ActiveForm::begin(
-        		[
-        			'id' => 'login-form',
-					'options' => ['class' => 'form-horizontal bs-example bs-example-form', 'enctype' => 'multipart/form-data'],
-					'fieldConfig' => [
-			            'labelOptions' => ['class' => 'col-lg-12 control-label'],
-			        ],
-				]
-        	); 
-            ?>
-            <?= $form->field($model, 'Package_Name', ['template' => '
-				   	<div class="col-sm-4">{label}</div>
-				   	<div class="col-sm-8">
-				       <div class="input-group col-sm-10 ">
-				          <span class="input-group-addon">
-				             <span class="glyphicon glyphicon-th-large"></span>
-				          </span>
-				          {input}
-				   	</div>
-			       	</div>
-				    '])->dropDownList($model->getPackage(), ['prompt'=>'- Select -']); ?>
-            <?= $form->field($model, 'Laboratory_Service_Description', ['template' => '
-				   	<div class="col-sm-4">{label}</div>
-				   	<div class="col-sm-8">
-				       <div class="input-group col-sm-10 ">
-				          <span class="input-group-addon">
-				             <span class="glyphicon glyphicon-th-large"></span>
-				          </span>
-				          {input}
-				   	</div>
-			       	</div>
-				    '])->textarea(['rows' => 3]); ?>
-            <?= $form->field($model, 'Temporary_Lab_Number', ['template' => '
-				   	<div class="col-sm-4">{label}</div>
-				   	<div class="col-sm-8">
-				       <div class="input-group col-sm-10 ">
-				          <span class="input-group-addon">
-				             <span class="glyphicon glyphicon-th-large"></span>
-				          </span>
-				          {input}
-				   	</div>
-			       	</div>
-				    '])->textInput(); ?>
-			<?= $form->field($model, 'Sales_Price', ['template' => '
-				   	<div class="col-sm-4">{label}</div>
-				   	<div class="col-sm-8">
-				       <div class="input-group col-sm-10 ">
-				          <span class="input-group-addon">
-				             <span class="glyphicon glyphicon-th-large"></span>
-				          </span>
-				          {input}
-				   	</div>
-			       	</div>
-				    '])->textInput(); ?>
-			<?= $form->field($model, 'Sales_Quantity', ['template' => '
-				   	<div class="col-sm-4">{label}</div>
-				   	<div class="col-sm-8">
-				       <div class="input-group col-sm-10 ">
-				          <span class="input-group-addon">
-				             <span class="glyphicon glyphicon-th-large"></span>
-				          </span>
-				          {input}
-				   	</div>
-			       	</div>
-				    '])->textInput(); ?>
-			<?= $form->field($model, 'Notes', ['template' => '
-				   	<div class="col-sm-4">{label}</div>
-				   	<div class="col-sm-8">
-				       <div class="input-group col-sm-10 ">
-				          <span class="input-group-addon">
-				             <span class="glyphicon glyphicon-th-large"></span>
-				          </span>
-				          {input}
-				   	</div>
-			       	</div>
-				    '])->textarea(['rows' => 2]); ?>
-            <?php ActiveForm::end(); ?>
-
-	        <div class="form-group">
-	            <div class="col-lg-offset-4 col-lg-4">
-	                <?= Html::submitButton('Add', ['class' => 'btn btn-primary btnadd', 'name' => 'contact-button']) ?>
-	                <?= Html::resetButton('Reset', ['class' => 'btn btn-default', 'name' => 'reset-button']) ?>
-                </div>
-            </div>
-
-
-            <?php 
-            $this->registerJs(''
-            	. '$(".btnadd").on("click",function(){'
-				. 	'$(".dynamicPackage").append(\''
-				. 		'<div class="col-sm-4">&nbsp;</div>'
-				. 		'<div class="col-sm-8">'
-			    . 		'</div>'
-			    . 	'\');'
-				. '})');
-			?>
+        		<div class="status"></div>
+				<div class="form-horizontal">
+		            <?= $form->field($model, 'Package_Name', ['template' => '
+						   	<div class="col-sm-4">{label}</div>
+						   	<div class="col-sm-8">
+						       <div class="input-group col-sm-10 ">
+						          <span class="input-group-addon">
+						             <span class="glyphicon glyphicon-th-large"></span>
+						          </span>
+						          {input}
+						   	</div>
+					       	</div>
+						    '])->dropDownList($model->getPackage(), ['prompt'=>'- Select -']); ?>
+		            <?= $form->field($model, 'Laboratory_Service_Description', ['template' => '
+						   	<div class="col-sm-4">{label}</div>
+						   	<div class="col-sm-8">
+						       <div class="input-group col-sm-10 ">
+						          <span class="input-group-addon">
+						             <span class="glyphicon glyphicon-th-large"></span>
+						          </span>
+						          {input}
+						   	</div>
+					       	</div>
+						    '])->textarea(['rows' => 3]); ?>
+		            <?= $form->field($model, 'Temporary_Lab_Number', ['template' => '
+						   	<div class="col-sm-4">{label}</div>
+						   	<div class="col-sm-8">
+						       <div class="input-group col-sm-10 ">
+						          <span class="input-group-addon">
+						             <span class="glyphicon glyphicon-th-large"></span>
+						          </span>
+						          {input}
+						   	</div>
+					       	</div>
+						    '])->textInput(); ?>
+					<?= $form->field($model, 'Sales_Price', ['template' => '
+						   	<div class="col-sm-4">{label}</div>
+						   	<div class="col-sm-8">
+						       <div class="input-group col-sm-10 ">
+						          <span class="input-group-addon">
+						             <span class="glyphicon glyphicon-th-large"></span>
+						          </span>
+						          {input}
+						   	</div>
+					       	</div>
+						    '])->textInput(); ?>
+					<?= $form->field($model, 'Sales_Quantity', ['template' => '
+						   	<div class="col-sm-4">{label}</div>
+						   	<div class="col-sm-8">
+						       <div class="input-group col-sm-10 ">
+						          <span class="input-group-addon">
+						             <span class="glyphicon glyphicon-th-large"></span>
+						          </span>
+						          {input}
+						   	</div>
+					       	</div>
+						    '])->textInput(); ?>
+					<?= $form->field($model, 'Notes', ['template' => '
+						   	<div class="col-sm-4">{label}</div>
+						   	<div class="col-sm-8">
+						       <div class="input-group col-sm-10 ">
+						          <span class="input-group-addon">
+						             <span class="glyphicon glyphicon-th-large"></span>
+						          </span>
+						          {input}
+						   	</div>
+					       	</div>
+						    '])->textarea(['rows' => 2]); ?>
+		            <div class="form-group">
+			            <div class="col-lg-offset-4 col-lg-4">
+			            <?= Html::submitButton('Add', ['class' => 'btn btn-primary save-package', 'name' => 'contact-button']) ?>
+			            <?= Html::resetButton('Reset', ['class' => 'btn btn-default', 'name' => 'reset-button']) ?>
+		                </div>
+		            </div>
+	            </div>
         	</div>
-
-        	<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
-			  <div class="modal-dialog" role="document">
-			    <div class="modal-content">
-			      <div class="modal-header">
-			        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-			        <h4 class="modal-title" id="exampleModalLabel">New message</h4>
-			      </div>
-			      <div class="modal-body">
-			        <form>
-			          <div class="form-group">
-			            <label for="recipient-name" class="control-label">ID Package:</label>
-			            <input type="text" class="form-control" id="id-Package">
-			          </div>
-			          <div class="form-group">
-			            <label for="message-text" class="control-label">Package Name:</label>
-			            <input type="text" class="form-control" id="Package_Name" name="Package_Name">
-			          </div>
-			          <div class="form-group">
-			            <label for="message-text" class="control-label">Short Package Name:</label>
-			            <input type="text" class="form-control" id="Short_Package_Name" name="Short_Package_Name">
-			          </div>
-			          <div class="form-group">
-			            <label for="message-text" class="control-label">Price:</label>
-			            <input type="text" class="form-control" id="Price" name="Price">
-			          </div>
-			          <div class="form-group">
-			            <label for="message-text" class="control-label">Description:</label>
-			            <textarea class="form-control" id="Description" name="Description"></textarea>
-			          </div>
-			        </form>
-			      </div>
-			      <div class="modal-footer">
-			        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-			        <button type="button" class="btn btn-primary save-package">Save Package</button>
-			      </div>
-			    </div>
-			  </div>
-			</div>
 
         </div>
         <hr/>

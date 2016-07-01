@@ -52,7 +52,6 @@ class QuotationForm extends Model
                     'Cc_to_patrolab_email',
                     'Package_ID',
                     'Package_Name',
-
                     'Laboratory_Service_Description',
                     'Temporary_Lab_Number',
                     'Sales_Price',
@@ -98,5 +97,9 @@ class QuotationForm extends Model
 
     public function getPackage(){
         return ArrayHelper::map(Packages::find()->all(), 'Package_ID', 'Package_Name');
+    }
+
+    public function savePackage_child($POST){
+        return Yii::$app->db->createCommand()->insert('quotation_child', $POST)->execute();
     }
 }

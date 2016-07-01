@@ -96,29 +96,72 @@ AppAsset::register($this);
 
 <script type="text/javascript">
 $(document).ready(function () {
-    $('#exampleModal').on('show.bs.modal', function (event) {
-      var button = $(event.relatedTarget)
-      var recipient = button.data('whatever')
-      var modal = $(this)
-      modal.find('.modal-title').text('ID New Package Service ' + recipient)
-      modal.find('#id-Package').val(recipient)
-    });
-
     $( ".save-package" ).click(function() {
-        var id_Package = $("#id-Package").val(); 
-        var Package_Name = $("#Package_Name").val(); 
-        var Short_Package_Name = $("#Short_Package_Name").val(); 
-        var Price = parseInt($("#Price").val()); 
-        var Description = $("#Description").val(); 
-        $.post( "<?= Url::to(['packages/save'])?>", { 
-                Package_ID: id_Package, 
-                Package_Name: Package_Name, 
-                Short_Package_Name:Short_Package_Name, 
-                Price:Price, 
-                Description:Description,
-                _csrf : '<?=Yii::$app->request->getCsrfToken()?>'
-            } );
-        $('#exampleModal').modal('hide');
+        var status_error = "<div class=\"alert alert-danger alert-dismissible fade in\" role=\"alert\">"+
+                              "<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">×</span></button>";
+        var status_error_end ="</div>";
+        var quotationform_quotation_number = $("#quotationform-quotation_number").val(); 
+        var quotationform_package_name = $("#quotationform-package_name").val(); 
+        if (quotationform_package_name=='') {
+            $( ".status" ).append(status_error+"<p>Packages Name is NULL</p>"+status_error_end);
+            return;
+        };
+        var quotationform_laboratory_service_description = $("#quotationform-laboratory_service_description").val(); 
+        if (quotationform_laboratory_service_description=='') {
+            $( ".status" ).append(status_error+"<p>Laboratory Service Description is NULL</p>"+status_error_end);
+            return;
+        };
+        var quotationform_temporary_lab_number = $("#quotationform-temporary_lab_number").val(); 
+        if (quotationform_temporary_lab_number=='') {
+            $( ".status" ).append(status_error+"<p>Temporary Lab Number NULL</p>"+status_error_end);
+            return;
+        };
+        var quotationform_sales_price = $("#quotationform-sales_price").val(); 
+        if (quotationform_sales_price=='') {
+            $( ".status" ).append(status_error+"<p>Sales Price is NULL</p>"+status_error_end);
+            return;
+        };
+        var quotationform_sales_quantity = $("#quotationform-sales_quantity").val(); 
+        if (quotationform_sales_quantity=='') {
+            $( ".status" ).append(status_error+"<p>Sales Quantity is NULL</p>"+status_error_end);
+            return;
+        };
+        var quotationform_notes = $("#quotationform-notes").val(); 
+        if (quotationform_notes=='') {
+            $( ".status" ).append(status_error+"<p>Notes is NULL</p>"+status_error_end);
+            return;
+        };
+        $.post( "<?= Url::to(['site/quotation_child'])?>", { 
+                Quotation_Number: quotationform_quotation_number,
+                Package_ID: quotationform_package_name, 
+                Laboratory_Service_Description: quotationform_laboratory_service_description, 
+                Temporary_Lab_Number:quotationform_temporary_lab_number, 
+                Sales_Price:quotationform_sales_price, 
+                Sales_Quantity:quotationform_sales_quantity,
+                Notes:quotationform_notes
+        },function( data ) {
+            if (data.status) {
+                $("#quotationform-package_name").val(""); 
+                $("#quotationform-laboratory_service_description").val(""); 
+                $("#quotationform-temporary_lab_number").val(""); 
+                $("#quotationform-sales_price").val(""); 
+                $("#quotationform-sales_quantity").val(""); 
+                $("#quotationform-notes").val(""); 
+                $( ".status" ).append("<div class=\"alert alert-info alert-dismissible fade in\" role=\"alert\">"+
+                      "<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">×</span></button>"+
+                      "<h4>Succsesfuly!</h4>"+
+                      "<p>Package in Quotation Number ."+quotationform_quotation_number+" Save."+
+                      "</p>"+
+                    "</div>" );
+            }else{
+                $( ".status" ).append( "<div class=\"alert alert-danger alert-dismissible fade in\" role=\"alert\">"+
+                      "<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">×</span></button>"+
+                      "<h4>You got an error!</h4>"+
+                      "<p>Package in Quotation Number ."+quotationform_quotation_number+" Failed Save."+
+                      "</p>"+
+                    "</div>" );
+            };
+        }, "json");
     });
 
 });
