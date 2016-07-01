@@ -97,6 +97,10 @@ class QuotationForm extends Model
     public function getPackage(){
         return ArrayHelper::map(Packages::find()->all(), 'Package_ID', 'Package_Name');
     }
+    
+    public function getCustomes(){
+        return ArrayHelper::map(Customers::find()->all(), 'Office_Email', 'Customer_Name');
+    }
 
     public function savePackage_child($POST){
         return Yii::$app->db->createCommand()->insert('quotation_child', $POST)->execute();
