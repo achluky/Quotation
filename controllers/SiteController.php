@@ -105,4 +105,16 @@ class SiteController extends Controller
             }
         }
     }
+
+    public function actionSendEmail(){
+        Yii::$app->mailer->compose()
+                ->setFrom('from@domain.com')
+                ->setTo('to@domain.com')
+                ->setSubject('Message subject')
+                ->setTextBody('Plain text content')
+                ->setHtmlBody('<b>HTML content</b>')
+                ->attach('/path/to/source/file.pdf')
+                ->send();
+    }
 }
+    

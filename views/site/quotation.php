@@ -77,23 +77,23 @@ $this->params['breadcrumbs'][] = $this->title;
                     <?= $form->field($model, 'Customer_Name',['template' => '
 						   <div class="col-sm-4">{label}</div>
 						   <div class="col-sm-8">
-						       <div class="input-group col-sm-5 ">
+						       <div class="input-group col-sm-8 ">
 						          <span class="input-group-addon">
 						             <span class="glyphicon glyphicon-user"></span>
 						          </span>
 						          {input}
 						       </div>
-						   </div>']) ?>
+						   </div>'])->dropDownList($model->getCustomes(), ['prompt'=>'- Select -']) ?>
                     <?= $form->field($model, 'Sub_Customer_Name',['template' => '
 						   <div class="col-sm-4">{label}</div>
 						   <div class="col-sm-8">
-						       <div class="input-group col-sm-5 ">
+						       <div class="input-group col-sm-8 ">
 						          <span class="input-group-addon">
 						             <span class="glyphicon glyphicon-user"></span>
 						          </span>
 						          {input}
 						       </div>
-						   </div>']) ?>
+						   </div>'])->dropDownList($model->getCustomes(), ['prompt'=>'- Select -']) ?>
                     <?= $form->field($model, 'Revision_Number', ['template' => '
 						   <div class="col-sm-4">{label}</div>
 						   <div class="col-sm-8">
