@@ -1,0 +1,10 @@
+departemen
+-LUBRICANT
+-EVIRO
+-TRAVO
+-CALIBRATION
+
+
+Filed : Sales Price => price dari package type
+Field : Discon
+Field : Harga setelah diskon

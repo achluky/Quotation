@@ -5,6 +5,7 @@
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 use yii\bootstrap\Button;
+use yii\jui\DatePicker;
 
 $this->title = 'Quotation';
 $this->params['breadcrumbs'][] = $this->title;
@@ -12,30 +13,6 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <div class="site-quotation">
     <h1><?= Html::encode($this->title) ?></h1>
-
-    <?php if (Yii::$app->session->hasFlash('contactFormSubmitted')): ?>
-
-        <div class="alert alert-success">
-            Thank you for contacting us. We will respond to you as soon as possible.
-        </div>
-
-        <p>
-            Note that if you turn on the Yii debugger, you should be able
-            to view the mail message on the mail panel of the debugger.
-            <?php if (Yii::$app->mailer->useFileTransport): ?>
-                Because the application is in development mode, the email is not sent but saved as
-                a file under <code><?= Yii::getAlias(Yii::$app->mailer->fileTransportPath) ?></code>.
-                Please configure the <code>useFileTransport</code> property of the <code>mail</code>
-                application component to be false to enable email sending.
-            <?php endif; ?>
-        </p>
-
-    <?php else: ?>
-
-        <p>
-            If you have business inquiries or other questions, please fill out the following form to contact us.
-            Thank you.
-        </p>
         <hr/>
 
         <div class="row">
@@ -73,7 +50,12 @@ $this->params['breadcrumbs'][] = $this->title;
 						          </span>
 						          {input}
 						       </div>
-						   </div>'])->textInput(['data-default' => '']) ?>
+						   </div>'])
+                    				// ->widget(\yii\jui\DatePicker::classname(), [
+								    //'language' => 'ru',
+								    //'dateFormat' => 'yyyy-MM-dd',
+									// ]) 
+							?>
                     <?= $form->field($model, 'Customer_Name',['template' => '
 						   <div class="col-sm-4">{label}</div>
 						   <div class="col-sm-8">
@@ -104,7 +86,7 @@ $this->params['breadcrumbs'][] = $this->title;
 						          {input}
 						       </div>
 						   </div>']) ?>
-                    <?= $form->field($model, 'Analysis_Time_Agr', ['template' => '
+                    <?= $form->field($model, 'Analysis_Time_Agreed', ['template' => '
 						   <div class="col-sm-4">{label}</div>
 						   <div class="col-sm-8">
 						       <div class="input-group col-sm-12 ">
@@ -160,10 +142,7 @@ $this->params['breadcrumbs'][] = $this->title;
 		            <?= $form->field($model, 'Package_Name', ['template' => '
 						   	<div class="col-sm-4">{label}</div>
 						   	<div class="col-sm-8">
-						       <div class="input-group col-sm-10 ">
-						          <span class="input-group-addon">
-						             <span class="glyphicon glyphicon-th-large"></span>
-						          </span>
+						       <div class="col-sm-10 ">
 						          {input}
 						   	</div>
 					       	</div>
@@ -171,10 +150,7 @@ $this->params['breadcrumbs'][] = $this->title;
 		            <?= $form->field($model, 'Laboratory_Service_Description', ['template' => '
 						   	<div class="col-sm-4">{label}</div>
 						   	<div class="col-sm-8">
-						       <div class="input-group col-sm-10 ">
-						          <span class="input-group-addon">
-						             <span class="glyphicon glyphicon-th-large"></span>
-						          </span>
+						       <div class="col-sm-10 ">
 						          {input}
 						   	</div>
 					       	</div>
@@ -182,10 +158,7 @@ $this->params['breadcrumbs'][] = $this->title;
 		            <?= $form->field($model, 'Temporary_Lab_Number', ['template' => '
 						   	<div class="col-sm-4">{label}</div>
 						   	<div class="col-sm-8">
-						       <div class="input-group col-sm-10 ">
-						          <span class="input-group-addon">
-						             <span class="glyphicon glyphicon-th-large"></span>
-						          </span>
+						       <div class="col-sm-10 ">
 						          {input}
 						   	</div>
 					       	</div>
@@ -193,10 +166,7 @@ $this->params['breadcrumbs'][] = $this->title;
 					<?= $form->field($model, 'Sales_Price', ['template' => '
 						   	<div class="col-sm-4">{label}</div>
 						   	<div class="col-sm-8">
-						       <div class="input-group col-sm-10 ">
-						          <span class="input-group-addon">
-						             <span class="glyphicon glyphicon-th-large"></span>
-						          </span>
+						       <div class="col-sm-10 ">
 						          {input}
 						   	</div>
 					       	</div>
@@ -204,10 +174,7 @@ $this->params['breadcrumbs'][] = $this->title;
 					<?= $form->field($model, 'Sales_Quantity', ['template' => '
 						   	<div class="col-sm-4">{label}</div>
 						   	<div class="col-sm-8">
-						       <div class="input-group col-sm-10 ">
-						          <span class="input-group-addon">
-						             <span class="glyphicon glyphicon-th-large"></span>
-						          </span>
+						       <div class="col-sm-10 ">
 						          {input}
 						   	</div>
 					       	</div>
@@ -215,10 +182,7 @@ $this->params['breadcrumbs'][] = $this->title;
 					<?= $form->field($model, 'Notes', ['template' => '
 						   	<div class="col-sm-4">{label}</div>
 						   	<div class="col-sm-8">
-						       <div class="input-group col-sm-10 ">
-						          <span class="input-group-addon">
-						             <span class="glyphicon glyphicon-th-large"></span>
-						          </span>
+						       <div class="col-sm-10 ">
 						          {input}
 						   	</div>
 					       	</div>
@@ -264,5 +228,4 @@ $this->params['breadcrumbs'][] = $this->title;
 				    </dl>
         		</td>
         </table>
-    <?php endif; ?>
 </div>

@@ -33,7 +33,8 @@ class Employees extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['Home_Address'], 'string'],
+            [
+                ['Home_Address'], 'string'],
             [['Full_Name', 'Department', 'Job_Position'], 'string', 'max' => 50],
             [['Short_Name'], 'string', 'max' => 20],
             [['Hand_Phone_1', 'Hand_Phone_2', 'Home_Phone'], 'string', 'max' => 15],

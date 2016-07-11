@@ -8,6 +8,8 @@ use yii\web\Controller;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\QuotationForm;
+use yii\web\UploadedFile;
+
 
 class SiteController extends Controller
 {
@@ -76,7 +78,6 @@ class SiteController extends Controller
         $model = new QuotationForm();
         if ($model->load(Yii::$app->request->post()) && $model->contact(Yii::$app->params['adminEmail'])) {
             Yii::$app->session->setFlash('contactFormSubmitted');
-
             return $this->refresh();
         }
         return $this->render('contact', [
@@ -87,11 +88,26 @@ class SiteController extends Controller
     public function actionQuotation()
     {
         $model = new QuotationForm();
-        if ($model->load(Yii::$app->request->post()) && $model->contact(Yii::$app->params['adminEmail'])) {
-            Yii::$app->session->setFlash('contactFormSubmitted');
-            return $this->refresh();
+        if ($model->load(Yii::$app->request->post())) {
+            $model->Attachment_File = UploadedFile::getInstance($model, 'Attachment_File');
+            if ($model->uploadFile()) {
+                if($model->savePackage_master($_POST)){ 
+                    $rst = $model->quotation_email($_POST, $model->Attachment_File);
+                    return $this->redirect(['quotationresult']);
+                }else{
+                    Yii::$app->session->setFlash('contactFormSubmitted');
+                    return $this->refresh();
+                }
+            }
+
         }
-        return $this->render('quotation', ['model' => $model]);
+        return $this->render('quotation', [
+            'model' => $model,
+        ]);
+    }
+
+    public function actionQuotationresult(){
+        return $this->render('result');
     }
 
     public function actionQuotation_child()
@@ -106,15 +122,5 @@ class SiteController extends Controller
         }
     }
 
-    public function actionSendEmail(){
-        Yii::$app->mailer->compose()
-                ->setFrom('from@domain.com')
-                ->setTo('to@domain.com')
-                ->setSubject('Message subject')
-                ->setTextBody('Plain text content')
-                ->setHtmlBody('<b>HTML content</b>')
-                ->attach('/path/to/source/file.pdf')
-                ->send();
-    }
 }
     
