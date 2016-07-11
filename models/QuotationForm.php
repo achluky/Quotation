@@ -127,7 +127,7 @@ Regards.";
     }
     
     public function getCustomes(){
-        return ArrayHelper::map(Customers::find()->all(), 'Customer_ID', 'Customer_Name');
+        return ArrayHelper::map(Customers::find()->all(), 'Office_Email', 'Customer_Name');
     }
 
     public function savePackage_child($POST){
