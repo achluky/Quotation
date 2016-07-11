@@ -6,6 +6,7 @@ use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 use yii\bootstrap\Button;
 use yii\jui\DatePicker;
+use kartik\datetime\DateTimePicker;
 
 $this->title = 'Quotation';
 $this->params['breadcrumbs'][] = $this->title;
@@ -33,88 +34,57 @@ $this->params['breadcrumbs'][] = $this->title;
                     <?= $form->field($model, 'Quotation_Number', ['template' => '
 						   <div class="col-sm-4">{label}</div>
 						   <div class="col-sm-8">
-						       <div class="input-group col-sm-12 ">
-						          <span class="input-group-addon">
-						             <span class="glyphicon glyphicon-th"></span>
-						          </span>
-						          {input}
-						       </div>
+						       {input}
 						   </div>
 						   '])->textInput(['autofocus' => true, 'value'=>"Q-PETROLAB-".date("dmYims")]) ?>
-                    <?= $form->field($model, 'Quotation_Date', ['template' => '
-						   <div class="col-sm-4">{label}</div>
-						   <div class="col-sm-8">
-						       <div class="input-group col-sm-12 ">
-						          <span class="input-group-addon">
-						             <span class="glyphicon glyphicon-calendar"></span>
-						          </span>
-						          {input}
-						       </div>
-						   </div>'])
-                    				// ->widget(\yii\jui\DatePicker::classname(), [
-								    //'language' => 'ru',
-								    //'dateFormat' => 'yyyy-MM-dd',
-									// ]) 
-							?>
+                
+					<?php
+							echo '<div class="form-group field-quotationform-quotation_date required">';
+							echo '<div class="col-sm-4">
+							<label class="col-lg-12 control-label" for="quotationform-quotation_date">Quotation Date</label>
+							</div>';
+							echo '<div class="col-sm-8">';
+							echo DateTimePicker::widget([
+							    'name' => 'Quotation_Date',
+							    'type' => DateTimePicker::TYPE_INPUT,
+							    'value' => date("d-m-Y"),
+							    'pluginOptions' => [
+							        'autoclose'=>true,
+							        'format' => 'dd-mm-yyyy'
+							    ]
+							]);
+							echo '</div>
+								  </div>';
+					?>
                     <?= $form->field($model, 'Customer_Name',['template' => '
 						   <div class="col-sm-4">{label}</div>
 						   <div class="col-sm-8">
-						       <div class="input-group col-sm-8 ">
-						          <span class="input-group-addon">
-						             <span class="glyphicon glyphicon-user"></span>
-						          </span>
-						          {input}
-						       </div>
+						        {input}
 						   </div>'])->dropDownList($model->getCustomes(), ['prompt'=>'- Select -']) ?>
                     <?= $form->field($model, 'Sub_Customer_Name',['template' => '
 						   <div class="col-sm-4">{label}</div>
 						   <div class="col-sm-8">
-						       <div class="input-group col-sm-8 ">
-						          <span class="input-group-addon">
-						             <span class="glyphicon glyphicon-user"></span>
-						          </span>
-						          {input}
-						       </div>
+						        {input}
 						   </div>'])->dropDownList($model->getCustomes(), ['prompt'=>'- Select -']) ?>
                     <?= $form->field($model, 'Revision_Number', ['template' => '
 						   <div class="col-sm-4">{label}</div>
 						   <div class="col-sm-8">
-						       <div class="input-group col-sm-5 ">
-						          <span class="input-group-addon">
-						             <span class="glyphicon glyphicon-th"></span>
-						          </span>
-						          {input}
-						       </div>
+						        {input}
 						   </div>']) ?>
                     <?= $form->field($model, 'Analysis_Time_Agreed', ['template' => '
 						   <div class="col-sm-4">{label}</div>
 						   <div class="col-sm-8">
-						       <div class="input-group col-sm-12 ">
-						          <span class="input-group-addon">
-						             <span class="glyphicon glyphicon-time"></span>
-						          </span>
-						          {input}
-						       </div>
+						        {input}
 						   </div>']) ?>
                     <?= $form->field($model, 'Sales_Department', ['template' => '
 						   <div class="col-sm-4">{label}</div>
 						   <div class="col-sm-8">
-						       <div class="input-group col-sm-5 ">
-						          <span class="input-group-addon">
-						             <span class="glyphicon glyphicon-book"></span>
-						          </span>
-						          {input}
-						       </div>
-						   </div>']) ?>
+						        {input}
+						   </div>'])->dropDownList(['LUBRICANT','EVIRO','TRAVO','CALIBRATION'], ['prompt'=>'- Select -']) ?>
                     <?= $form->field($model, 'Petrolab_PIC', ['template' => '
 						   <div class="col-sm-4">{label}</div>
 						   <div class="col-sm-8">
-						       <div class="input-group col-sm-12 ">
-						          <span class="input-group-addon">
-						             <span class="glyphicon glyphicon-info-sign"></span>
-						          </span>
-						          {input}
-						       </div>
+						        {input}
 						   </div>'])->textInput(['readonly' => true, 'value' => Yii::$app->user->identity->username]) ?>
                     <?= $form->field($model, 'Attachment_File', ['template' => '
 						   <div class="col-sm-4">{label}</div>
@@ -170,7 +140,7 @@ $this->params['breadcrumbs'][] = $this->title;
 						          {input}
 						   	</div>
 					       	</div>
-						    '])->textInput(); ?>
+						    '])->textInput(['type' => 'number']); ?>
 					<?= $form->field($model, 'Sales_Quantity', ['template' => '
 						   	<div class="col-sm-4">{label}</div>
 						   	<div class="col-sm-8">
@@ -179,6 +149,22 @@ $this->params['breadcrumbs'][] = $this->title;
 						   	</div>
 					       	</div>
 						    '])->textInput(); ?>
+					<?= $form->field($model, 'Discount', ['template' => '
+						   	<div class="col-sm-4">{label}</div>
+						   	<div class="col-sm-8">
+						       <div class="col-sm-10 ">
+						          {input}
+						   	</div>
+					       	</div>
+						    '])->textInput(['value' => '0']); ?>
+					<?= $form->field($model, 'Price_Discount', ['template' => '
+						   	<div class="col-sm-4">{label}</div>
+						   	<div class="col-sm-8">
+						       <div class="col-sm-10 ">
+						          {input}
+						   	</div>
+					       	</div>
+						    '])->textInput(['value' => '0']); ?>
 					<?= $form->field($model, 'Notes', ['template' => '
 						   	<div class="col-sm-4">{label}</div>
 						   	<div class="col-sm-8">

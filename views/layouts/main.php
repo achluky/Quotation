@@ -21,7 +21,8 @@ AppAsset::register($this);
     <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
-    <link href="/Quotation/web/assets/chosen/chosen.min.css" rel="stylesheet" > 
+    <link href="<?= Yii::getAlias('@web')?>/assets/chosen/chosen.min.css" rel="stylesheet" > 
+    <link href="<?= Yii::getAlias('@web')?>/assets/chosen/chosen-bootstrap.css" rel="stylesheet" > 
 </head>
 <body>
 <?php $this->beginBody() ?>
@@ -100,7 +101,7 @@ AppAsset::register($this);
 
 <?php $this->endBody() ?>
 
-<script src="/Quotation/web/assets/chosen/chosen.jquery.js"></script>
+<script src= "<?= Yii::getAlias('@web')?>/assets/chosen/chosen.jquery.js"></script>
 <script type="text/javascript">
 $(document).ready(function () {
     $( ".save-package" ).click(function() {
@@ -133,6 +134,12 @@ $(document).ready(function () {
             $( ".status" ).append(status_error+"<p>Sales Quantity is NULL</p>"+status_error_end);
             return;
         };
+        var quotationform_discount = $("#quotationform-discount").val(); 
+        if (quotationform_discount=='') {
+            $( ".status" ).append(status_error+"<p>Discount is NULL</p>"+status_error_end);
+            return;
+        };
+        var quotationform_price_discount = $("#quotationform-price_discount").val(); 
         var quotationform_notes = $("#quotationform-notes").val(); 
         if (quotationform_notes=='') {
             $( ".status" ).append(status_error+"<p>Notes is NULL</p>"+status_error_end);
@@ -145,6 +152,8 @@ $(document).ready(function () {
                 Temporary_Lab_Number:quotationform_temporary_lab_number, 
                 Sales_Price:quotationform_sales_price, 
                 Sales_Quantity:quotationform_sales_quantity,
+                Discount:quotationform_discount,
+                Price_Discount:quotationform_price_discount,
                 Notes:quotationform_notes
         },function( data ) {
             if (data.status) {
@@ -153,6 +162,8 @@ $(document).ready(function () {
                 $("#quotationform-temporary_lab_number").val(""); 
                 $("#quotationform-sales_price").val(""); 
                 $("#quotationform-sales_quantity").val(""); 
+                $("#quotationform-discount").val(""); 
+                $("#quotationform-price_discount").val(""); 
                 $("#quotationform-notes").val(""); 
                 $( ".status" ).append("<div class=\"alert alert-info alert-dismissible fade in\" role=\"alert\">"+
                       "<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">×</span></button>"+
@@ -171,11 +182,28 @@ $(document).ready(function () {
             };
         }, "json");
     });
+    $("#quotationform-sales_quantity").change(function() {
+        var s = $("#quotationform-sales_price").val();
+        var sq = $("#quotationform-sales_quantity").val();
+        $("#quotationform-price_discount").val(s*sq);
+    });
+    $("#quotationform-discount").change(function() {
+        var d = $("#quotationform-discount").val();
+        var pd = $("#quotationform-price_discount").val();
+        $("#quotationform-price_discount").val(pd-((d/100)*pd));
+    });
     $("#quotationform-package_name").chosen();
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
-    $( "#quotationform-package_name" ).change(function() {
+    $("#quotationform-customer_name").chosen();
+    $("#quotationform-sub_customer_name").chosen();
+    $("#quotationform-package_name").change(function() {
         packed_id = $( "#quotationform-package_name" ).val();
-        $("#quotationform-sales_price").val(packed_id);
+        $.post( "<?= Url::to(['site/getprice'])?>", { 
+                Packed_id: packed_id
+        },function( data ) {
+            if (data.status) {
+                $("#quotationform-sales_price").val(data.price);
+            }
+        }, "json");
     });
 });
 </script>

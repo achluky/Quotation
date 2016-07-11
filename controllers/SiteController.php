@@ -80,9 +80,7 @@ class SiteController extends Controller
             Yii::$app->session->setFlash('contactFormSubmitted');
             return $this->refresh();
         }
-        return $this->render('contact', [
-            'model' => $model,
-        ]);
+        return $this->render('contact', ['model' => $model]);
     }
 
     public function actionQuotation()
@@ -101,9 +99,7 @@ class SiteController extends Controller
             }
 
         }
-        return $this->render('quotation', [
-            'model' => $model,
-        ]);
+        return $this->render('quotation', ['model' => $model]);
     }
 
     public function actionQuotationresult(){
@@ -119,6 +115,15 @@ class SiteController extends Controller
             }else{
                 echo json_encode(array('status'=>false));
             }
+        }
+    }
+
+    public function actionGetprice()
+    {    
+        $model = new QuotationForm();
+        if (isset($_POST)) {
+            $data = $model->getPrice($_POST['Packed_id']);
+            echo json_encode(array('status'=>true, 'price'=> $data['Price']));    
         }
     }
 }

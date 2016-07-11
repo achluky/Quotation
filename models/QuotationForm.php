@@ -26,6 +26,8 @@ class QuotationForm extends Model
     public $Laboratory_Service_Description;
     public $Temporary_Lab_Number;
     public $Sales_Price;
+    public $Discount;
+    public $Price_Discount;
     public $Sales_Quantity;
     public $Notes;
     /**
@@ -114,10 +116,10 @@ Should you need futher assistence, please do not hasitute to contact thanks for 
 Regards.";
             $rst = Yii::$app->mailer->compose()
                 ->setTo("ahmadluky@apps.ipb.ac.id")
-                ->setFrom(["luky.lucky24@gmail.com" => "ahmad luky"])
+                ->setFrom(["luky.lucky24@gmail.com" => "ahmad luky ramdani"])
                 ->setSubject($subject)
                 ->setTextBody($body)
-                ->attach(\Yii::getAlias('@webroot').'/../upload/' . $this->Attachment_File->baseName . '.' . $this->Attachment_File->extensio)
+                ->attach(\Yii::getAlias('@webroot').'/../upload/' . $this->Attachment_File->baseName . '.' . $this->Attachment_File->extension)
                 ->send();
             return $rst;
     }
@@ -128,6 +130,10 @@ Regards.";
     
     public function getCustomes(){
         return ArrayHelper::map(Customers::find()->all(), 'Office_Email', 'Customer_Name');
+    }
+
+    public function getPrice($id){
+        return Packages::find()->where('Package_ID="'.$id.'"')->asArray()->one();
     }
 
     public function savePackage_child($POST){
