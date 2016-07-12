@@ -47,10 +47,11 @@ $this->params['breadcrumbs'][] = $this->title;
 							echo DateTimePicker::widget([
 							    'name' => 'Quotation_Date',
 							    'type' => DateTimePicker::TYPE_INPUT,
-							    'value' => date("d-m-Y"),
+							    'value' => date("d-m-Y h:i"),
 							    'pluginOptions' => [
 							        'autoclose'=>true,
-							        'format' => 'dd-mm-yyyy'
+							        'format' => 'dd-mm-yyyy hh:ii',
+							        'pickTime'=> false
 							    ]
 							]);
 							echo '</div>
