@@ -36,8 +36,8 @@ class QuotationMaster extends \yii\db\ActiveRecord
         return [
             [['Quotation_Number', 'Quotation_Date', 'Customer_Name', 'Sub_Customer_Name', 'Revision_Number', 'Analysis_Time_Agreed', 'Sales_Department', 'Petrolab_PIC', 'Attachment_File'], 'required'],
             [['Quotation_Date', 'Analysis_Time_Agreed'], 'safe'],
-            [['Customer_Name', 'Sub_Customer_Name', 'Petrolab_PIC'], 'integer'],
-            [['Attachment_File'], 'string'],
+            [['Customer_Name', 'Sub_Customer_Name'], 'integer'],
+            [['Attachment_File','Petrolab_PIC'], 'string'],
             [['Quotation_Number', 'Revision_Number', 'Sales_Department'], 'string', 'max' => 20],
         ];
     }

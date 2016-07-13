@@ -1,18 +1,11 @@
 <?php
-
-/* @var $this \yii\web\View */
-/* @var $content string */
-
 use yii\helpers\Url;
 use yii\helpers\Html;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
-
-AppAsset::register($this);
 ?>
-<?php $this->beginPage() ?>
 <!DOCTYPE html>
 <html lang="<?= Yii::$app->language ?>">
 <head>
@@ -21,87 +14,125 @@ AppAsset::register($this);
     <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
+    <link href="<?= Yii::getAlias('@web')?>/assets/lte/css/bootstrap.min.css" rel="stylesheet">
+    <link href="<?= Yii::getAlias('@web')?>/assets/lte/font-awesome/css/font-awesome.css" rel="stylesheet">
+    <link href="<?= Yii::getAlias('@web')?>/assets/lte/css/animate.css" rel="stylesheet">
+    <link href="<?= Yii::getAlias('@web')?>/assets/lte/css/style.css" rel="stylesheet">
     <link href="<?= Yii::getAlias('@web')?>/assets/chosen/chosen.min.css" rel="stylesheet" > 
     <link href="<?= Yii::getAlias('@web')?>/assets/chosen/chosen-bootstrap.css" rel="stylesheet" > 
 </head>
 <body>
-<?php $this->beginBody() ?>
+<div id="wrapper">
 
-<div class="wrap">
-    <?php
-    NavBar::begin([
-        'brandLabel' => 'Quotation Application',
-        'brandUrl' => Yii::$app->homeUrl,
-        'options' => [
-            'class' => 'navbar-inverse navbar-fixed-top',
-        ],
-    ]);
-    echo Nav::widget([
-        'options' => ['class' => 'navbar-nav navbar-right'],
-        'items' => [
-            [
-                'label' => 'Home', 
-                'url' => ['/site/index'],
-                'visible' => Yii::$app->user->isGuest
-            ],
-            [
-                'label' => 'Quotation',
-                'url' => ['site/quotation'],
-                'visible' => !Yii::$app->user->isGuest
-            ],
-            [
-                'label' => 'List Quotation',
-                'url' => ['quotationmaster/index'],
-                'visible' => !Yii::$app->user->isGuest
-            ],
-            [
-                'label' => 'Packages',
-                'url' => ['packages/index'],
-                'visible' => !Yii::$app->user->isGuest
-            ],
-            [
-                'label' => 'Customers',
-                'url' => ['customers/index'],
-                'visible' => !Yii::$app->user->isGuest
-            ],
+    <nav class="navbar-default navbar-static-side" role="navigation">
+        <div class="sidebar-collapse">
+            <ul class="nav metismenu" id="side-menu">
+                <li class="nav-header">
+                    <div class="dropdown profile-element">
+                            <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                            <span class="clear"> 
+                            <span class="block m-t-xs"> 
+                                <strong class="font-bold">
+                                    <?= strtoupper (Yii::$app->user->identity->username )?>    
+                                </strong>
+                            </span> 
+                            <span class="text-muted text-xs block">Art Director <b class="caret"></b></span>
+                            </span> </a>
+                                <?php  if(!Yii::$app->user->isGuest){ ?>
+                                    <ul class="dropdown-menu animated fadeInRight m-t-xs">
+                                        <li><a href="<?= Url::to(['/site/logout'])?>" data-method="post">Logout</a></li>
+                                    </ul>
+                                <?php } ?>
+                    </div>
+                    <div class="logo-element">
+                        IN+
+                    </div>
+                </li>
+                <li class="active">
+                    <a href="#"><i class="fa fa-th-large"></i> <span class="nav-label">Quotation</span></a>
+                    <ul class="nav nav-second-level collapse in">
+                        <li><a href="<?= Url::to(['/site/quotation'])?>">Form Quotation </a></li>
+                        <li><a href="<?= Url::to(['/quotationmaster/index'])?>">List Quotation </a></li>
+                        <li><a href="<?= Url::to(['/packages/index'])?>">Packages</a></li>
+                        <li><a href="<?= Url::to(['/customers/index'])?>">Customers</a></li>
+                    </ul>
+                </li>
+            </ul>
 
-            Yii::$app->user->isGuest ? (
-                ['label' => 'Login', 'url' => ['/site/login']]
-            ) : (          
-               
-                '<li>'
-                . Html::beginForm(['/site/logout'], 'post', ['class' => 'navbar-form'])
-                . Html::submitButton(
-                    'Logout (' . Yii::$app->user->identity->username . ')',
-                    ['class' => 'btn btn-link']
-                )
-                . Html::endForm()
-                . '</li>'
-            )
-        ],
-    ]);
-    NavBar::end();
-    ?>
+        </div>
+    </nav>
 
-    <div class="container">
-        <?= Breadcrumbs::widget([
-            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-        ]) ?>
-        <?= $content ?>
+    <div id="page-wrapper" class="gray-bg">
+        <div class="row border-bottom">
+            <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
+                <div class="navbar-header">
+                    <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
+                    <form role="search" class="navbar-form-custom" method="post" action="#">
+                        <div class="form-group">
+                            <input type="text" placeholder="Search for something..." class="form-control" name="top-search" id="top-search">
+                        </div>
+                    </form>
+                </div>
+                <ul class="nav navbar-top-links navbar-right">
+                    <li>
+                        <span class="m-r-sm text-muted welcome-message">Welcome to INSPINIA+ Admin Theme.</span>
+                    </li>
+                    <?php  if(!Yii::$app->user->isGuest){ ?>
+                        <li>
+                            <a href="<?= Url::to(['/site/logout'])?>" data-method="post"> 
+                                <i class="fa fa-sign-out"></i> Logout
+                            </a>
+                        </li>
+                    <?php } ?>
+                </ul>
+
+            </nav>
+        </div>
+        <div class="row wrapper border-bottom white-bg page-heading">
+            <div class="col-lg-8">
+                <h2><?= $this->title ?></h2>
+                <?= Breadcrumbs::widget([
+                    'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+                ]) ?>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="wrapper wrapper-content animated fadeInRight">
+                    <div class="ibox-content p-xl">
+                        <div class="row">
+                            <?= $content ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer">
+            <div class="pull-right">
+                10GB of <strong>250GB</strong> Free.
+            </div>
+            <div>
+                <strong>Copyright</strong> Example Company &copy; 2014-2015
+            </div>
+        </div>
     </div>
+
 </div>
 
-<footer class="footer">
-    <div class="container">
-        <p class="pull-left">&copy; PT Petrolab Service <?= date('Y') ?></p>
+<!-- Mainly scripts -->
+<script src="<?= Yii::getAlias('@web')?>/assets/lte/js/jquery-2.1.1.js"></script>
+<script src="<?= Yii::getAlias('@web')?>/assets/lte/js/bootstrap.min.js"></script>
+<script src="<?= Yii::getAlias('@web')?>/assets/lte/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+<script src="<?= Yii::getAlias('@web')?>/assets/lte/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
 
-        <p class="pull-right"><?= Yii::powered() ?></p>
-    </div>
-</footer>
+<!-- Custom and plugin javascript -->
+<script src="<?= Yii::getAlias('@web')?>/assets/lte/js/inspinia.js"></script>
+<script src="<?= Yii::getAlias('@web')?>/assets/lte/js/plugins/pace/pace.min.js"></script>
+<!-- chosen  JS-->
+<script src="<?= Yii::getAlias('@web')?>/assets/chosen/chosen.jquery.js"></script>
 
-<?php $this->endBody() ?>
-
-<script src= "<?= Yii::getAlias('@web')?>/assets/chosen/chosen.jquery.js"></script>
+<!-- main js  -->
 <script type="text/javascript">
 $(document).ready(function () {
     $( ".save-package" ).click(function() {
@@ -207,6 +238,6 @@ $(document).ready(function () {
     });
 });
 </script>
+
 </body>
 </html>
-<?php $this->endPage() ?>

@@ -12,12 +12,8 @@ $this->title = 'Quotation';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
-<div class="site-quotation">
-    <h1><?= Html::encode($this->title) ?></h1>
-        <hr/>
-
-        <div class="row">
-
+<!-- <div class="site-quotation"> -->
+        <!-- <div class="row"> -->
         	<!-- MASTER Quotation -->
         	<div class="col-md-6">
         		<?php $form = ActiveForm::begin(
@@ -36,7 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
 						   <div class="col-sm-8">
 						       {input}
 						   </div>
-						   '])->textInput(['autofocus' => true, 'value'=>"Q-PETROLAB-".date("dmYims")]) ?>
+						   '])->textInput(['autofocus' => true, 'value'=>"Q-PETROLAB-".date("dmYHims")]) ?>
                 
 					<?php
 							echo '<div class="form-group field-quotationform-quotation_date required">';
@@ -47,7 +43,7 @@ $this->params['breadcrumbs'][] = $this->title;
 							echo DateTimePicker::widget([
 							    'name' => 'Quotation_Date',
 							    'type' => DateTimePicker::TYPE_INPUT,
-							    'value' => date("d-m-Y h:i"),
+							    'value' => date('d-m-Y H:i'),
 							    'pluginOptions' => [
 							        'autoclose'=>true,
 							        'format' => 'dd-mm-yyyy hh:ii',
@@ -183,10 +179,10 @@ $this->params['breadcrumbs'][] = $this->title;
 	            </div>
         	</div>
 
-        </div>
-        <hr/>
+        <!-- </div> -->
+        <!-- <hr/> -->
 
-        <h3 id="description">Description</h3>
+       <!--  <h3 id="description">Description</h3>
         <table>
         		<td width="50%" valign="top">
 			        <dl>
@@ -214,5 +210,5 @@ $this->params['breadcrumbs'][] = $this->title;
 				      <dd>Lorem ipsu ullamcorper non lacus vel aliquam. </dd>
 				    </dl>
         		</td>
-        </table>
-</div>
+        </table> -->
+<!-- </div> -->

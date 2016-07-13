@@ -12,11 +12,11 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="quotation-master-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <!-- <h1><?= Html::encode($this->title) ?></h1> -->
     <?php //echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Create Quotation Master', ['create'], ['class' => 'btn btn-success']) ?>
+        <!-- <?= Html::a('Create Quotation Master', ['create'], ['class' => 'btn btn-success']) ?> -->
     </p>
      <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -28,7 +28,8 @@ $this->params['breadcrumbs'][] = $this->title;
             'Quotation_Date',
             'Customer_Name',
             'Analysis_Time_Agreed',
-            'Attachment_File:ntext',
+            // 'Attachment_File:ntext',
+            'Petrolab_PIC',
             // 'created_at',
 
             ['class' => 'yii\grid\ActionColumn'],

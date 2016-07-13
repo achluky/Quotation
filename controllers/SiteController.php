@@ -30,7 +30,7 @@ class SiteController extends Controller
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
-                    'logout' => ['post'],
+                    'logout' => ['get'],
                 ],
             ],
         ];
@@ -51,7 +51,9 @@ class SiteController extends Controller
 
     public function actionIndex()
     {
-        return $this->render('index');
+        $model = new LoginForm();
+        $this->layout = 'home';
+        return $this->render('login', ['model' => $model]);
     }
 
     public function actionLogin()
@@ -61,9 +63,13 @@ class SiteController extends Controller
         }
         $model = new LoginForm();
         $post = Yii::$app->request->post();
+        
+        // dd($post);
+
         if ($model->load($post) && $model->login()) {
             return $this->redirect(['quotation']);
         }
+        $this->layout = 'home';
         return $this->render('login', ['model' => $model]);
     }
 
