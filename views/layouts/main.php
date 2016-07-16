@@ -18,7 +18,8 @@ use app\assets\AppAsset;
     <link href="<?= Yii::getAlias('@web')?>/assets/lte/font-awesome/css/font-awesome.css" rel="stylesheet">
     <link href="<?= Yii::getAlias('@web')?>/assets/lte/css/animate.css" rel="stylesheet">
     <link href="<?= Yii::getAlias('@web')?>/assets/lte/css/style.css" rel="stylesheet">
-    <link href="<?= Yii::getAlias('@web')?>/assets/chosen/chosen.min.css" rel="stylesheet" > 
+    <!-- <link href="<?= Yii::getAlias('@web')?>/assets/chosen/chosen.min.css" rel="stylesheet" >  -->
+    <link href="<?= Yii::getAlias('@web')?>/assets/lte/css/plugins/chosen/chosen.css" rel="stylesheet" > 
     <link href="<?= Yii::getAlias('@web')?>/assets/chosen/chosen-bootstrap.css" rel="stylesheet" > 
 </head>
 <body>
@@ -75,7 +76,7 @@ use app\assets\AppAsset;
                 </div>
                 <ul class="nav navbar-top-links navbar-right">
                     <li>
-                        <span class="m-r-sm text-muted welcome-message">Welcome to INSPINIA+ Admin Theme.</span>
+                        <span class="m-r-sm text-muted welcome-message">Welcome to <?= strtoupper (Yii::$app->user->identity->username )?>.</span>
                     </li>
                     <?php  if(!Yii::$app->user->isGuest){ ?>
                         <li>
@@ -110,10 +111,10 @@ use app\assets\AppAsset;
         </div>
         <div class="footer">
             <div class="pull-right">
-                10GB of <strong>250GB</strong> Free.
+                
             </div>
             <div>
-                <strong>Copyright</strong> Example Company &copy; 2014-2015
+                <strong>Copyright</strong> PETROLAB SERVICE &copy; <?= date("Y") ?>-<?= date("Y")+1?>
             </div>
         </div>
     </div>
@@ -129,8 +130,13 @@ use app\assets\AppAsset;
 <!-- Custom and plugin javascript -->
 <script src="<?= Yii::getAlias('@web')?>/assets/lte/js/inspinia.js"></script>
 <script src="<?= Yii::getAlias('@web')?>/assets/lte/js/plugins/pace/pace.min.js"></script>
+
 <!-- chosen  JS-->
 <script src="<?= Yii::getAlias('@web')?>/assets/chosen/chosen.jquery.js"></script>
+
+<!-- date js  -->
+<script src="<?= Yii::getAlias('@web')?>/assets/lte/js/plugins/datapicker/bootstrap-datepicker.js"></script>
+
 
 <!-- main js  -->
 <script type="text/javascript">
@@ -202,7 +208,7 @@ $(document).ready(function () {
                       "<p>Package in Quotation Number ."+quotationform_quotation_number+" Save."+
                       "</p>"+
                     "</div>" );
-                $( ".list_package").append("<p><span class='glyphicon glyphicon-ok'></span> "+quotationform_package_name+"</p>");
+                $( ".list_package ul").append("<li><span class=\"m-21-xs\"><span class='glyphicon glyphicon-ok'></span> "+quotationform_package_name+"</p></span></li>");
             }else{
                 $( ".status" ).append( "<div class=\"alert alert-danger alert-dismissible fade in\" role=\"alert\">"+
                       "<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">×</span></button>"+
@@ -228,13 +234,101 @@ $(document).ready(function () {
     $("#quotationform-sub_customer_name").chosen();
     $("#quotationform-package_name").change(function() {
         packed_id = $( "#quotationform-package_name" ).val();
-        $.post( "<?= Url::to(['site/getprice'])?>", { 
-                Packed_id: packed_id
-        },function( data ) {
+        $.post( "<?= Url::to(['site/getprice'])?>", { Packed_id : packed_id },function( data ) {
             if (data.status) {
                 $("#quotationform-sales_price").val(data.price);
             }
         }, "json");
+    });
+    $('#data_1 .input-group.date').datepicker({
+        todayBtn: "linked",
+        keyboardNavigation: false,
+        forceParse: false,
+        calendarWeeks: true,
+        autoclose: true,
+        format: "yyyy-mm-dd"
+
+    });
+    $( ".save-qotation" ).click(function() {
+        $(".img_load").show();
+
+        var quotation_number = $("#quotationform-quotation_number").val();
+        var quotation_date = $("#quotationform-quotation_date").val();
+        var customer_name = $("#quotationform-customer_name").val();
+        var sub_customer_name = $("#quotationform-sub_customer_name").val();
+        var revision_number = $("#quotationform-revision_number").val();
+        var analysis_time_agreed = $("#quotationform-analysis_time_agreed").val();
+        var sales_department = $("#quotationform-sales_department").val();
+        var petrolab_pic = $("#quotationform-petrolab_pic").val();
+        var attachment_file = $("#quotationform-attachment_file").val();
+
+        var status_error = "<div class=\"alert alert-danger alert-dismissible fade in\" role=\"alert\">"+
+                              "<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">×</span></button>";
+        var status_error_end ="</div>";
+        if (customer_name == '') {
+            $( ".status_master" ).append(status_error+"<p>Customer Name is NULL</p>"+status_error_end);
+            return;
+        };
+        if (sub_customer_name == '') {
+            $( ".status_master" ).append(status_error+"<p>Sub Customer Name is NULL</p>"+status_error_end);
+            return;
+        };
+        if (revision_number == '') {
+            $( ".status_master" ).append(status_error+"<p>Revision Number is NULL</p>"+status_error_end);
+            return;
+        };
+        if (analysis_time_agreed == '') {
+            $( ".status_master" ).append(status_error+"<p>Analysis Time Agreed is NULL</p>"+status_error_end);
+            return;
+        };
+        if (sales_department == '') {
+            $( ".status_master" ).append(status_error+"<p>Sales Departmentis NULL</p>"+status_error_end);
+            return;
+        };
+        if (attachment_file == '') {
+            $( ".status_master" ).append(status_error+"<p>Attachment File is NULL</p>"+status_error_end);
+            return;
+        };
+
+        $("#quotation-form").submit();
+        // $.post( "<?= Url::to(['site/quotation'])?>", { 
+        //         Quotation_Number: quotation_number,
+        //         Quotation_Date: quotation_date, 
+        //         Customer_Name: customer_name, 
+        //         Sub_Customer_Name:sub_customer_name, 
+        //         Revision_Number:revision_number, 
+        //         Analysis_Time_Agreed:analysis_time_agreed,
+        //         Sales_Department:sales_department,
+        //         Petrolab_PIC:petrolab_pic,
+        //         Attachment_File:attachment_file
+        // },function( data ) {
+        //     if (data.status) {
+        //         $(".img_load").hide();
+        //         $("#quotationform-quotation_number").val(""); 
+        //         $("#quotationform-quotation_date").val(""); 
+        //         $("#quotationform-customer_name").val(""); 
+        //         $("#quotationform-sub_customer_name").val(""); 
+        //         $("#quotationform-revision_number").val(""); 
+        //         $("#quotationform-analysis_time_agreed").val(""); 
+        //         $("#quotationform-sales_department").val(""); 
+        //         $("#quotationform-petrolab_pic").val(""); 
+        //         $("#quotationform-attachment_file").val(""); 
+        //         $( ".status_master" ).append("<div class=\"alert alert-info alert-dismissible fade in\" role=\"alert\">"+
+        //               "<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">×</span></button>"+
+        //               "<h4>Succsesfuly!</h4>"+
+        //               "<p>Quotation Number "+quotation_number+" Save & Send to Email Customer."+
+        //               "</p>"+
+        //             "</div>" );
+        //         $( ".list_package ul").append("<li><span class=\"m-21-xs\"><span class='glyphicon glyphicon-ok'></span> "+quotationform_package_name+"</p></span></li>");
+        //     }else{
+        //         $( ".status_master" ).append( "<div class=\"alert alert-danger alert-dismissible fade in\" role=\"alert\">"+
+        //               "<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">×</span></button>"+
+        //               "<h4>You got an error!</h4>"+
+        //               "<p>Quotation Number ."+data.error+" Failed Save."+
+        //               "</p>"+
+        //             "</div>" );
+        //     };
+        // }, "json");
     });
 });
 </script>

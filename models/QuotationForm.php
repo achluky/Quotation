@@ -56,9 +56,6 @@ class QuotationForm extends Model
         ];
     }
 
-    /**
-     * @return array customized attribute labels
-     */
     public function attributeLabels()
     {
         return [
@@ -66,11 +63,6 @@ class QuotationForm extends Model
         ];
     }
 
-    /**
-     * Sends an email to the specified email address using the information collected by this model.
-     * @param string $email the target email address
-     * @return boolean whether the model passes validation
-     */
     public function contact($email)
     {
         if ($this->validate()) {
@@ -87,43 +79,58 @@ class QuotationForm extends Model
     
     public function uploadFile()
     {
-        if ($this->validate()) {
-            $this->Attachment_File->saveAs( \Yii::getAlias('@webroot').'/../upload/' . $this->Attachment_File->baseName . '.' . $this->Attachment_File->extension);
-            return true;
-        } else {
-            return false;
-        }
+        $this->Attachment_File->saveAs( \Yii::getAlias('@webroot').'/../upload/' . $this->Attachment_File->baseName . '.' . $this->Attachment_File->extension);
+        return true;
     }
 
     public function quotation_email($POST)
     {
         $POST = $POST['QuotationForm'];
-        // dd($POST);
         $subject = "Petrolab Quotation #".$POST['Quotation_Number']."#".$POST['Customer_Name']."";
-        $body = "
-Dear Sir/Modam
-\n
-Thanks to contact petrolab laboratory here with we send you our commertial quotation :
+        $str = file_get_contents( \Yii::getAlias('@webroot').'/../doc/action.html');
+        $str = str_replace("%Quotation_Number%", $POST['Quotation_Number'], $str);
+        $str = str_replace("%Quotation_Date%", $POST['Quotation_Date'], $str);
+        $str = str_replace("%Customer_Name%", $POST['Customer_Name'], $str);
+        $str = str_replace("%Revision_Number%", $POST['Revision_Number'], $str);
+        $str = str_replace("%Petrolab_PIC%", $POST['Petrolab_PIC'], $str);
 
-    Quotation Number : ".$POST['Quotation_Number']."
-    Quotation Date : ".$POST['Quotation_Date']."
-    Customers Name : ".$POST['Customer_Name']."
-    Revison : ".$POST['Revision_Number']."
-    Petrolab PIC : ".$POST['Petrolab_PIC']."
+        $q_child = $this->getQuotation_child($POST['Quotation_Number']);
 
-Should you need futher assistence, please do not hasitute to contact thanks for yout trust to petrolab laboratory
-\n
-Regards.";
-            $rst = Yii::$app->mailer->compose()
-                ->setTo("ahmadluky@apps.ipb.ac.id")
-                ->setFrom(["luky.lucky24@gmail.com" => "ahmad luky ramdani"])
-                ->setSubject($subject)
-                ->setTextBody($body)
-                ->attach(\Yii::getAlias('@webroot').'/../upload/' . $this->Attachment_File->baseName . '.' . $this->Attachment_File->extension)
-                ->send();
-            return $rst;
+        $tabel = '';
+        foreach ($q_child as $i => $child) {
+            $tabel .= ' <tr>
+                            <td>'.$i++.'</td>
+                            <td>'.$child['Quotation_Number'].'</td>
+                            <td>'.$child['Laboratory_Service_Description'].'</td>
+                            <td style="text-align:center;">'.$child['Sales_Quantity'].'</td>
+                            <td style="text-align:center;">'.$child['Sales_Price'].'</td>
+                            <td style="text-align:center;">'.$child['Price_Discount'].'</td>
+                        </tr>';
+        }
+        
+        $tabel .= ' <tr class="total">
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td style="text-align:center;">Rp. 540,-</td>
+                        <td style="text-align:center;">Rp. 10.400,-</td>
+                    </tr>';
+
+        $str = str_replace("%tabel%", $tabel, $str);
+        $rst = Yii::$app->mailer->compose()
+            ->setTo("ahmadluky@apps.ipb.ac.id")
+            ->setFrom(["luky.lucky24@gmail.com" => "ahmad luky ramdani"])
+            ->setSubject($subject)
+            ->setTextBody($str)
+            ->attach(\Yii::getAlias('@webroot').'/../upload/' . $this->Attachment_File->baseName . '.' . $this->Attachment_File->extension)
+            ->send();
+        return $rst;
     }
 
+    public function getQuotation_child($quotation_number){
+        return QuotationChild::find()->where('Quotation_Number="'.$quotation_number.'"')->asArray()->all();
+    }
     public function getPackage(){
         return ArrayHelper::map(Packages::find()->all(), 'Package_ID', 'Package_Name');
     }

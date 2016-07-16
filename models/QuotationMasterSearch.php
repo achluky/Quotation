@@ -17,8 +17,9 @@ class QuotationMasterSearch extends QuotationMaster
      */
     public function rules()
     {
+        // Quotation_ID
         return [
-            [['Quotation_ID', 'Customer_Name', 'Sub_Customer_Name', 'Petrolab_PIC'], 'integer'],
+            [['Customer_Name', 'Sub_Customer_Name', 'Petrolab_PIC'], 'integer'],
             [['Quotation_Number', 'Quotation_Date', 'Revision_Number', 'Analysis_Time_Agreed', 'Sales_Department', 'Attachment_File'], 'safe'],
         ];
     }
@@ -59,7 +60,7 @@ class QuotationMasterSearch extends QuotationMaster
 
         // grid filtering conditions
         $query->andFilterWhere([
-            'Quotation_ID' => $this->Quotation_ID,
+            // 'Quotation_ID' => $this->Quotation_ID,
             'Quotation_Date' => $this->Quotation_Date,
             'Customer_Name' => $this->Customer_Name,
             'Sub_Customer_Name' => $this->Sub_Customer_Name,

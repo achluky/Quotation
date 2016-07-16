@@ -23,7 +23,7 @@ class QuotationmasterController extends Controller
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
-                    'delete' => ['POST'],
+                    'delete' => ['GET'],
                 ],
             ],
         ];
@@ -66,7 +66,7 @@ class QuotationmasterController extends Controller
         $model = new QuotationMaster();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->Quotation_ID]);
+            return $this->redirect(['view', 'id' => $model->Quotation_Number]);
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -85,7 +85,7 @@ class QuotationmasterController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->Quotation_ID]);
+            return $this->redirect(['view', 'id' => $model->Quotation_Number]);
         } else {
             return $this->render('update', [
                 'model' => $model,

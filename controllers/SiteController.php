@@ -13,6 +13,7 @@ use yii\web\UploadedFile;
 
 class SiteController extends Controller
 {
+    public $enableCsrfValidation = false;
     public function behaviors()
     {
         return [
@@ -51,6 +52,9 @@ class SiteController extends Controller
 
     public function actionIndex()
     {
+        if (!Yii::$app->user->isGuest) {
+            return $this->redirect(['quotation']);
+        }
         $model = new LoginForm();
         $this->layout = 'home';
         return $this->render('login', ['model' => $model]);
@@ -64,8 +68,6 @@ class SiteController extends Controller
         $model = new LoginForm();
         $post = Yii::$app->request->post();
         
-        // dd($post);
-
         if ($model->load($post) && $model->login()) {
             return $this->redirect(['quotation']);
         }
@@ -95,7 +97,7 @@ class SiteController extends Controller
         if ($model->load(Yii::$app->request->post())) {
             $model->Attachment_File = UploadedFile::getInstance($model, 'Attachment_File');
             if ($model->uploadFile()) {
-                if($model->savePackage_master($_POST)){ 
+                if($model->savePackage_master($_POST)){
                     $rst = $model->quotation_email($_POST, $model->Attachment_File);
                     return $this->redirect(['quotationresult']);
                 }else{
@@ -108,7 +110,22 @@ class SiteController extends Controller
         return $this->render('quotation', ['model' => $model]);
     }
 
-    public function actionQuotationresult(){
+    public function actionQuotationact(){
+        $model = new QuotationForm();
+        if ($model->load(Yii::$app->request->post())) {
+                if($model->savePackage_master($_POST)){
+                    $rst = $model->quotation_email($_POST, $model->Attachment_File);
+                    echo json_encode(array('status'=>true));
+                }else{
+                    echo json_encode(array('status'=>false, 'error'=>'Failed Save and Send'));
+                }
+        }else{
+            echo json_encode(array('status'=>false, 'error'=>'Failed Save and Send'));
+        }
+    }
+
+    public function actionQuotationresult()
+    {
         return $this->render('result');
     }
 

@@ -6,7 +6,7 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model app\models\QuotationMaster */
 
-$this->title = $model->Quotation_ID;
+$this->title = $model->Quotation_Number;
 $this->params['breadcrumbs'][] = ['label' => 'Quotation Masters', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -15,8 +15,8 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Update', ['update', 'id' => $model->Quotation_ID], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->Quotation_ID], [
+        <?= Html::a('Update', ['update', 'id' => $model->Quotation_Number], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Delete', ['delete', 'id' => $model->Quotation_Number], [
             'class' => 'btn btn-danger',
             'data' => [
                 'confirm' => 'Are you sure you want to delete this item?',
@@ -28,7 +28,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'Quotation_ID',
+            // 'Quotation_ID',
             'Quotation_Number',
             'Quotation_Date',
             'Customer_Name',

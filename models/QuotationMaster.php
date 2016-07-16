@@ -48,7 +48,6 @@ class QuotationMaster extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'Quotation_ID' => 'Quotation  ID',
             'Quotation_Number' => 'Quotation  Number',
             'Quotation_Date' => 'Quotation  Date',
             'Customer_Name' => 'Customer  Name',

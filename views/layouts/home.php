@@ -23,10 +23,7 @@ use app\assets\AppAsset;
     <div class="loginColumns animated fadeInDown">
         <div class="row">
             <div class="col-md-6">
-                <h2 class="font-bold">Welcome to IN+</h2>
-                <p>
-                    Perfectly designed and precisely prepared admin theme with over 50 pages with extra new web app views.
-                </p>
+                <h2 class="font-bold">Quotation Application</h2>
                 <p>
                     Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.
                 </p>
@@ -41,10 +38,10 @@ use app\assets\AppAsset;
         <hr/>
         <div class="row">
             <div class="col-md-6">
-                Copyright Example Company
+                Copyright PETROLAB SERVICE
             </div>
             <div class="col-md-6 text-right">
-               <small>© 2014-2015</small>
+               <small>© <?= date("Y")?>-<?= date("Y")+1?></small>
             </div>
         </div>
     </div>
