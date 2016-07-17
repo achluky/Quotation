@@ -31,7 +31,6 @@ $this->params['breadcrumbs'][] = $this->title;
 			       {input}
 			   </div>
 			   '])->textInput(['autofocus' => true, 'value'=>"Q-".date("dmYHims")]) ?>
-    
 		<?php
 				echo '<div class="form-group field-quotationform-quotation_date required">';
 				echo '<div class="col-sm-4">
@@ -66,11 +65,23 @@ $this->params['breadcrumbs'][] = $this->title;
 			   <div class="col-sm-8">
 			        {input}
 			   </div>']) ?>
-        <?= $form->field($model, 'Analysis_Time_Agreed', ['template' => '
-			   <div class="col-sm-4">{label}</div>
-			   <div class="col-sm-8">
-			        {input}
-			   </div>']) ?>
+		<?php
+				echo '<div class="form-group field-quotationform-analysis_time_agreed required">';
+				echo '<div class="col-sm-4">
+						<label class="col-lg-12 control-label" for="quotationform-analysis_time_agreed">Analysis Time Agreed</label>
+					  </div>';
+				echo '<div class="col-sm-8">';
+				echo '	<div id="data_1">
+                            <div class="input-group date">
+                                <span class="input-group-addon">
+                                	<i class="fa fa-calendar"></i>
+                                </span>
+                                <input type="text" class="form-control quotationform-analysis_time_agreed" name="QuotationForm[Analysis_Time_Agreed]" value="'.date("Y-m-d").'">
+                            </div>
+                        </div>';
+				echo '</div>
+					  </div>';
+		?>
         <?= $form->field($model, 'Sales_Department', ['template' => '
 			   <div class="col-sm-4">{label}</div>
 			   <div class="col-sm-8">
@@ -80,7 +91,7 @@ $this->params['breadcrumbs'][] = $this->title;
 			   <div class="col-sm-4">{label}</div>
 			   <div class="col-sm-8">
 			        {input}
-			   </div>'])->textInput(['readonly' => true, 'value' => Yii::$app->user->identity->username]) ?>
+			   </div>'])->textInput(['readonly' => true, 'value' => Yii::$app->user->identity->username])->label('Petrolab PIC') ?>
         <?= $form->field($model, 'Attachment_File', ['template' => '
 			   <div class="col-sm-4">{label}</div>
 			   <div class="col-sm-8">
@@ -91,15 +102,19 @@ $this->params['breadcrumbs'][] = $this->title;
 		<?php 
 			echo '<div class="form-group field-quotationform-quotation_date required">
 				  <div class="col-sm-4">
-				      <label class="col-lg-12 control-label" for="quotationform-quotation_date">List Package Quotation</label>
+				      	<label class="col-lg-12 control-label" for="quotationform-quotation_date">
+				      		List Package Quotation
+				      	</label>
 				  </div>
 				  <div class="col-sm-8 list_package">
 				 		<ul class="todo-list m-t ui-sortable">
+                        	<div class="well">
+                        		Please, Select and Add Package.
+                        	</div>
                         </ul>
 				  </div>
 				  </div>
-				  ';
-
+			';
 		?>
         <div class="form-group">
             <div class="col-lg-offset-4 col-lg-11">
@@ -112,6 +127,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <!-- CHILD Quotation -->
 <div class="col-md-6">
+	<h4>Select & Add Packages</h4>
+	<hr/>
 	<div class="status"></div>
 	<div class="form-horizontal">
         <?= $form->field($model, 'Package_Name', ['template' => '
@@ -145,7 +162,7 @@ $this->params['breadcrumbs'][] = $this->title;
 			          {input}
 			   	</div>
 		       	</div>
-			    '])->textInput(['type' => 'number']); ?>
+			    '])->textInput(['type' => 'number','value' => '0']); ?>
 		<?= $form->field($model, 'Sales_Quantity', ['template' => '
 			   	<div class="col-sm-4">{label}</div>
 			   	<div class="col-sm-8">
@@ -153,7 +170,7 @@ $this->params['breadcrumbs'][] = $this->title;
 			          {input}
 			   	</div>
 		       	</div>
-			    '])->textInput(); ?>
+			    '])->textInput(['value' => '0']); ?>
 		<?= $form->field($model, 'Discount', ['template' => '
 			   	<div class="col-sm-4">{label}</div>
 			   	<div class="col-sm-8">
@@ -179,10 +196,11 @@ $this->params['breadcrumbs'][] = $this->title;
 		       	</div>
 			    '])->textarea(['rows' => 2]); ?>
         <div class="form-group">
-            <div class="col-lg-offset-4 col-lg-4">
+            <div class="col-lg-offset-4 col-lg-5">
             &nbsp;&nbsp;&nbsp;
             <?= Html::submitButton('Add', ['class' => 'btn btn-primary save-package', 'name' => 'contact-button']) ?>
-            <?= Html::resetButton('Reset', ['class' => 'btn btn-default', 'name' => 'reset-button']) ?>
+            <?= Html::Button('Remove', ['class' => 'btn btn-danger close_package', 'name' => 'contact-button']) ?>
+           	<?= Html::resetButton('Reset', ['class' => 'btn btn-default', 'name' => 'reset-button']) ?>
             </div>
         </div>
     </div>

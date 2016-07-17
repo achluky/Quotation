@@ -97,15 +97,19 @@ class QuotationForm extends Model
         $q_child = $this->getQuotation_child($POST['Quotation_Number']);
 
         $tabel = '';
+        $sum_price=0;
+        $sum_total_price=0;
         foreach ($q_child as $i => $child) {
             $tabel .= ' <tr>
-                            <td>'.$i++.'</td>
+                            <td>'.++$i.'</td>
                             <td>'.$child['Quotation_Number'].'</td>
                             <td>'.$child['Laboratory_Service_Description'].'</td>
                             <td style="text-align:center;">'.$child['Sales_Quantity'].'</td>
                             <td style="text-align:center;">'.$child['Sales_Price'].'</td>
                             <td style="text-align:center;">'.$child['Price_Discount'].'</td>
                         </tr>';
+                        $sum_price += $child['Sales_Price'];
+                        $sum_total_price += $child['Price_Discount'];
         }
         
         $tabel .= ' <tr class="total">
@@ -113,16 +117,16 @@ class QuotationForm extends Model
                         <td></td>
                         <td></td>
                         <td></td>
-                        <td style="text-align:center;">Rp. 540,-</td>
-                        <td style="text-align:center;">Rp. 10.400,-</td>
+                        <td style="text-align:center;">'.$sum_price.'</td>
+                        <td style="text-align:center;">'.$sum_total_price.'</td>
                     </tr>';
 
         $str = str_replace("%tabel%", $tabel, $str);
-        $rst = Yii::$app->mailer->compose()
-            ->setTo("ahmadluky@apps.ipb.ac.id")
+        $rst = Yii::$app->mailer->compose('layouts/html')
+            ->setTo(trim($POST['Customer_Name']))
             ->setFrom(["luky.lucky24@gmail.com" => "ahmad luky ramdani"])
             ->setSubject($subject)
-            ->setTextBody($str)
+            ->setHtmlBody($str)
             ->attach(\Yii::getAlias('@webroot').'/../upload/' . $this->Attachment_File->baseName . '.' . $this->Attachment_File->extension)
             ->send();
         return $rst;
@@ -146,7 +150,10 @@ class QuotationForm extends Model
     public function savePackage_child($POST){
         return Yii::$app->db->createCommand()->insert('quotation_child', $POST)->execute();
     }
-
+    public function removePackage_child($POST){
+        $query = "DELETE FROM quotation_child WHERE Package_ID='".trim($POST['Packed_id'])."'";
+        return Yii::$app->db->createCommand($query)->execute();
+    }
     public function savePackage_master($POST){
         return Yii::$app->db->createCommand()->insert('quotation_master', $POST['QuotationForm'])->execute();
     }

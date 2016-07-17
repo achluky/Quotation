@@ -109,16 +109,7 @@ use app\assets\AppAsset;
                 </div>
             </div>
         </div>
-        <div class="footer">
-            <div class="pull-right">
-                
-            </div>
-            <div>
-                <strong>Copyright</strong> PETROLAB SERVICE &copy; <?= date("Y") ?>-<?= date("Y")+1?>
-            </div>
-        </div>
     </div>
-
 </div>
 
 <!-- Mainly scripts -->
@@ -208,7 +199,7 @@ $(document).ready(function () {
                       "<p>Package in Quotation Number ."+quotationform_quotation_number+" Save."+
                       "</p>"+
                     "</div>" );
-                $( ".list_package ul").append("<li><span class=\"m-21-xs\"><span class='glyphicon glyphicon-ok'></span> "+quotationform_package_name+"</p></span></li>");
+                $( ".list_package ul .well").append("<li><span class=\"m-21-xs\"><span class='glyphicon glyphicon-ok'></span></span> "+quotationform_package_name+" <div class=\"close_package\"  style=\"float:right;\"><span class=\"glyphicon glyphicon-remove-circle\"></span></div></li>");
             }else{
                 $( ".status" ).append( "<div class=\"alert alert-danger alert-dismissible fade in\" role=\"alert\">"+
                       "<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">×</span></button>"+
@@ -249,9 +240,27 @@ $(document).ready(function () {
         format: "yyyy-mm-dd"
 
     });
-    $( ".save-qotation" ).click(function() {
-        $(".img_load").show();
 
+    $('#quotationmaster-analysis_time_agreed').datepicker({
+        todayBtn: "linked",
+        keyboardNavigation: false,
+        forceParse: false,
+        calendarWeeks: true,
+        autoclose: true,
+        format: "yyyy-mm-dd"
+
+    });
+
+    $('#quotationmaster-quotation_date').datepicker({
+        todayBtn: "linked",
+        keyboardNavigation: false,
+        forceParse: false,
+        calendarWeeks: true,
+        autoclose: true,
+        format: "yyyy-mm-dd"
+
+    });
+    $( ".save-qotation" ).click(function() {
         var quotation_number = $("#quotationform-quotation_number").val();
         var quotation_date = $("#quotationform-quotation_date").val();
         var customer_name = $("#quotationform-customer_name").val();
@@ -289,46 +298,21 @@ $(document).ready(function () {
             $( ".status_master" ).append(status_error+"<p>Attachment File is NULL</p>"+status_error_end);
             return;
         };
-
         $("#quotation-form").submit();
-        // $.post( "<?= Url::to(['site/quotation'])?>", { 
-        //         Quotation_Number: quotation_number,
-        //         Quotation_Date: quotation_date, 
-        //         Customer_Name: customer_name, 
-        //         Sub_Customer_Name:sub_customer_name, 
-        //         Revision_Number:revision_number, 
-        //         Analysis_Time_Agreed:analysis_time_agreed,
-        //         Sales_Department:sales_department,
-        //         Petrolab_PIC:petrolab_pic,
-        //         Attachment_File:attachment_file
-        // },function( data ) {
-        //     if (data.status) {
-        //         $(".img_load").hide();
-        //         $("#quotationform-quotation_number").val(""); 
-        //         $("#quotationform-quotation_date").val(""); 
-        //         $("#quotationform-customer_name").val(""); 
-        //         $("#quotationform-sub_customer_name").val(""); 
-        //         $("#quotationform-revision_number").val(""); 
-        //         $("#quotationform-analysis_time_agreed").val(""); 
-        //         $("#quotationform-sales_department").val(""); 
-        //         $("#quotationform-petrolab_pic").val(""); 
-        //         $("#quotationform-attachment_file").val(""); 
-        //         $( ".status_master" ).append("<div class=\"alert alert-info alert-dismissible fade in\" role=\"alert\">"+
-        //               "<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">×</span></button>"+
-        //               "<h4>Succsesfuly!</h4>"+
-        //               "<p>Quotation Number "+quotation_number+" Save & Send to Email Customer."+
-        //               "</p>"+
-        //             "</div>" );
-        //         $( ".list_package ul").append("<li><span class=\"m-21-xs\"><span class='glyphicon glyphicon-ok'></span> "+quotationform_package_name+"</p></span></li>");
-        //     }else{
-        //         $( ".status_master" ).append( "<div class=\"alert alert-danger alert-dismissible fade in\" role=\"alert\">"+
-        //               "<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">×</span></button>"+
-        //               "<h4>You got an error!</h4>"+
-        //               "<p>Quotation Number ."+data.error+" Failed Save."+
-        //               "</p>"+
-        //             "</div>" );
-        //     };
-        // }, "json");
+    });
+
+    $(".close_package").click(function() {
+        var packed_id = $(".list_package li").text();
+        $.post( "<?= Url::to(['site/quotation_removechild'])?>", { 
+                Packed_id: packed_id
+        },function( data ) {
+            if (data.status) {
+                $( ".list_package li" ).remove();
+            }else{
+
+            };
+        }, "json");
+
     });
 });
 </script>

@@ -10,7 +10,11 @@ use yii\widgets\ActiveForm;
 
 <div class="quotation-master-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin(
+        [
+            'options' => [ 'enctype' => 'multipart/form-data']
+        ]
+    ); ?>
 
     <?= $form->field($model, 'Quotation_Number')->textInput(['maxlength' => true]) ?>
 
@@ -28,7 +32,13 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'Petrolab_PIC')->textInput() ?>
 
-    <?= $form->field($model, 'Attachment_File')->textarea(['rows' => 6]) ?>
+    <?= $form->field($model, 'Attachment_File')->fileInput() ?>
+
+    <?php if ($model->Attachment_File): ?>
+        <div class="form-group">
+            <?= Html::a('File Name : '.$model->Attachment_File, ['/file', 'file' => $model->Attachment_File]) ?>
+        </div>
+    <?php endif; ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

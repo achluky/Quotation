@@ -6,24 +6,13 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model app\models\Customers */
 
-$this->title = $model->Customer_ID;
+$this->title = $model->Customer_Name;
 $this->params['breadcrumbs'][] = ['label' => 'Customers', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="customers-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
-
-    <p>
-        <?= Html::a('Update', ['update', 'id' => $model->Customer_ID], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->Customer_ID], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
-                'method' => 'post',
-            ],
-        ]) ?>
-    </p>
+<!--     <h1><?= Html::encode($this->title) ?></h1> -->
 
     <?= DetailView::widget([
         'model' => $model,
@@ -42,5 +31,17 @@ $this->params['breadcrumbs'][] = $this->title;
             'NPWP',
         ],
     ]) ?>
+
+
+    <p>
+        <?= Html::a('Update', ['update', 'id' => $model->Customer_ID], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Delete', ['delete', 'id' => $model->Customer_ID], [
+            'class' => 'btn btn-danger',
+            'data' => [
+                'confirm' => 'Are you sure you want to delete this item?',
+                'method' => 'post',
+            ],
+        ]) ?>
+    </p>
 
 </div>

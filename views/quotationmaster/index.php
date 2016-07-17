@@ -32,7 +32,33 @@ $this->params['breadcrumbs'][] = $this->title;
             'Petrolab_PIC',
             // 'created_at',
 
-            ['class' => 'yii\grid\ActionColumn'],
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'template' => '<center> {view}&nbsp;&nbsp;{update}&nbsp;&nbsp;{delete}&nbsp;&nbsp;{email}&nbsp;&nbsp;{download} </center>' ,
+                'buttons' => [
+                    'download' => function ($url) {
+                        return Html::a(
+                            '<span class="glyphicon glyphicon-print"></span>',
+                            $url, 
+                            [
+                                'title' => 'Print',
+                                'data-pjax' => '0',
+                            ]
+                        );
+                    },
+
+                    'email' => function ($url) {
+                        return Html::a(
+                            '<span class="glyphicon glyphicon-envelope"></span>',
+                            $url, 
+                            [
+                                'title' => 'Email',
+                                'data-pjax' => '0',
+                            ]
+                        );
+                    },
+                ],
+            ],
         ],
     ]); ?>
 </div>

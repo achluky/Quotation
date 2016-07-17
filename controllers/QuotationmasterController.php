@@ -56,6 +56,12 @@ class QuotationmasterController extends Controller
         ]);
     }
 
+
+    public function actionViewlist($quotation_number)
+    {
+        echo $quotation_number;
+    }
+
     /**
      * Creates a new QuotationMaster model.
      * If creation is successful, the browser will be redirected to the 'view' page.

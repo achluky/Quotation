@@ -1,12 +1,10 @@
-<?php
-use yii\helpers\Html;
-?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
-<head> 
-	<meta name="viewport" content="width=device-width" />
+<head>
+    <meta name="viewport" content="width=device-width" />
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title>Alerts e.g. approaching your limit</title>
+    <title>Actionable emails e.g. reset password</title>
+    <!-- <link href="styles.css" media="all" rel="stylesheet" type="text/css" /> -->
     <style type="text/css">
         /* -------------------------------------
             GLOBAL
@@ -319,59 +317,87 @@ use yii\helpers\Html;
     </style>
 </head>
 <body>
-<body cz-shortcut-listen="true">
 <table class="body-wrap">
-    <tbody>
-    	<tr>
-	        <td>
-	        </td>
-	        <td class="container" width="600">
-	            <div class="content">
-	                <table class="main" width="100%" cellpadding="0" cellspacing="0">
-	                    <tbody><tr>
-	                        <td class="alert alert-good">
-	                            Info: You're approaching your limit. Please upgrade.
-	                        </td>
-	                    </tr>
-	                    <tr>
-	                        <td class="content-wrap">
-	                            <table width="100%" cellpadding="0" cellspacing="0">
-	                                <tbody><tr>
-	                                    <td class="content-block">
-	                                        You have <strong>1 free report</strong> remaining.
-	                                    </td>
-	                                </tr>
-	                                <tr>
-	                                    <td class="content-block">
-	                                        It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.
-	                                    </td>
-	                                </tr>
-	                                <tr>
-	                                    <td class="content-block">
-	                                        <a href="#" class="btn-primary">Upgrade my account</a>
-	                                    </td>
-	                                </tr>
-	                                <tr>
-	                                    <td class="content-block">
-	                                        Thanks for choosing Company Inc.
-	                                    </td>
-	                                </tr>
-	                            </tbody></table>
-	                        </td>
-	                    </tr>
-	                </tbody></table>
-	                <div class="footer">
-	                    <table width="100%">
-	                        <tbody><tr>
-	                            <td class="aligncenter content-block"><a href="#">Unsubscribe</a> from these alerts.</td>
-	                        </tr>
-	                    </tbody></table>
-	                </div></div>
-	        </td>
-        	<td>
-        	</td>
-    	</tr>
-	</tbody>
+    <tr>
+        <td></td>
+        <td class="container" width="900">
+            <div class="content">
+                <table class="main" width="100%" cellpadding="0" cellspacing="0">
+                    <tr>
+                        <td class="content-wrap">
+                            <table  cellpadding="0" cellspacing="0" width="100%">
+                                <tr>
+                                    <td class="alert alert-good">
+                                        Thank For Quotation
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="content-block">
+                                        <h3>Dear Sir/Modam</h3>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="content-block">
+                                        Thanks to contact petrolab laboratory here with we send you our commertial quotation :
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="content-block">
+                                        Quotation Number : %Quotation_Number%<br/>
+                                        Quotation Date : %Quotation_Date%<br/>
+                                        Customers Name : %Customer_Name%<br/>
+                                        Revison : %Revision_Number%<br/>
+                                        Petrolab PIC : %Petrolab_PIC%<br/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="content-block">
+                                        <table class="table table-bordered"  class="invoice-items">
+                                            <thead>
+                                                <tr>
+                                                    <th style="text-align:left;width:4%;">No</th>
+                                                    <th style="text-align:left;width:30%;">Package ID</th>
+                                                    <th style="text-align:left;width:30%;">Laboratory Service Description</th>
+                                                    <th style="text-align:center;width:5%;">Quantity</th>
+                                                    <th style="text-align:center;width:20%;">Sales Price</th>
+                                                    <th style="text-align:center;width:25%;">Total Price</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                %tabel%
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="content-block">
+                                        Should you need futher assistence, please do not hasitute to contact thanks for yout trust to petrolab laboratory
+                                        <br/>
+                                        <br/>
+                                        Regards
+                                        <br/>
+                                        Date : %date%
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="content-block aligncenter">
+                                        <a href="#" class="btn-primary">Confirm email address</a>
+                                    </td>
+                                </tr>
+                              </table>
+                        </td>
+                    </tr>
+                </table>
+                <div class="footer">
+                    <table width="100%">
+                        <tr>
+                            <td class="aligncenter content-block">Follow <a href="#">@Company</a> on Twitter.</td>
+                        </tr>
+                    </table>
+                </div></div>
+        </td>
+        <td></td>
+    </tr>
 </table>
 </body>
 </html>

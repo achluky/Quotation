@@ -34,9 +34,9 @@ class QuotationMaster extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['Quotation_Number', 'Quotation_Date', 'Customer_Name', 'Sub_Customer_Name', 'Revision_Number', 'Analysis_Time_Agreed', 'Sales_Department', 'Petrolab_PIC', 'Attachment_File'], 'required'],
+            [['Quotation_Number', 'Quotation_Date', 'Customer_Name', 'Sub_Customer_Name', 'Revision_Number', 'Analysis_Time_Agreed', 'Sales_Department', 'Petrolab_PIC'], 'required'],
             [['Quotation_Date', 'Analysis_Time_Agreed'], 'safe'],
-            [['Customer_Name', 'Sub_Customer_Name'], 'integer'],
+            [['Customer_Name', 'Sub_Customer_Name'], 'string'],
             [['Attachment_File','Petrolab_PIC'], 'string'],
             [['Quotation_Number', 'Revision_Number', 'Sales_Department'], 'string', 'max' => 20],
         ];
@@ -55,7 +55,7 @@ class QuotationMaster extends \yii\db\ActiveRecord
             'Revision_Number' => 'Revision  Number',
             'Analysis_Time_Agreed' => 'Analysis  Time  Agreed',
             'Sales_Department' => 'Sales  Department',
-            'Petrolab_PIC' => 'Petrolab  Pic',
+            'Petrolab_PIC' => 'Petrolab  PIC',
             'Attachment_File' => 'Attachment  File',
         ];
     }

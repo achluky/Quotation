@@ -110,20 +110,6 @@ class SiteController extends Controller
         return $this->render('quotation', ['model' => $model]);
     }
 
-    public function actionQuotationact(){
-        $model = new QuotationForm();
-        if ($model->load(Yii::$app->request->post())) {
-                if($model->savePackage_master($_POST)){
-                    $rst = $model->quotation_email($_POST, $model->Attachment_File);
-                    echo json_encode(array('status'=>true));
-                }else{
-                    echo json_encode(array('status'=>false, 'error'=>'Failed Save and Send'));
-                }
-        }else{
-            echo json_encode(array('status'=>false, 'error'=>'Failed Save and Send'));
-        }
-    }
-
     public function actionQuotationresult()
     {
         return $this->render('result');
@@ -134,6 +120,17 @@ class SiteController extends Controller
         $model = new QuotationForm();
         if (isset($_POST)) {
             if($model->savePackage_child($_POST)){
+                echo json_encode(array('status'=>true, 'info'=> $_POST));
+            }else{
+                echo json_encode(array('status'=>false));
+            }
+        }
+    }
+
+    public function actionQuotation_removechild(){
+        $model = new QuotationForm();
+        if (isset($_POST)) {
+            if($model->removePackage_child($_POST)){
                 echo json_encode(array('status'=>true, 'info'=> $_POST));
             }else{
                 echo json_encode(array('status'=>false));
