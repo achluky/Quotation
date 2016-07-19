@@ -79,7 +79,7 @@ class QuotationForm extends Model
     
     public function uploadFile()
     {
-        $this->Attachment_File->saveAs( \Yii::getAlias('@webroot').'/../upload/' . $this->Attachment_File->baseName . '.' . $this->Attachment_File->extension);
+        $this->Attachment_File->saveAs( \Yii::getAlias('@webroot').'/../upload/file/' . $this->Attachment_File->baseName . '.' . $this->Attachment_File->extension);
         return true;
     }
 
@@ -102,7 +102,7 @@ class QuotationForm extends Model
         foreach ($q_child as $i => $child) {
             $tabel .= ' <tr>
                             <td>'.++$i.'</td>
-                            <td>'.$child['Quotation_Number'].'</td>
+                            <td>'.$child['Package_ID'].'</td>
                             <td>'.$child['Laboratory_Service_Description'].'</td>
                             <td style="text-align:center;">'.$child['Sales_Quantity'].'</td>
                             <td style="text-align:center;">'.$child['Sales_Price'].'</td>
@@ -124,10 +124,10 @@ class QuotationForm extends Model
         $str = str_replace("%tabel%", $tabel, $str);
         $rst = Yii::$app->mailer->compose('layouts/html')
             ->setTo(trim($POST['Customer_Name']))
-            ->setFrom(["luky.lucky24@gmail.com" => "ahmad luky ramdani"])
+            ->setFrom(["luky.lucky24@gmail.com" => "no reply"])
             ->setSubject($subject)
             ->setHtmlBody($str)
-            ->attach(\Yii::getAlias('@webroot').'/../upload/' . $this->Attachment_File->baseName . '.' . $this->Attachment_File->extension)
+            ->attach(\Yii::getAlias('@webroot').'/../upload/file/' . $this->Attachment_File->baseName . '.' . $this->Attachment_File->extension)
             ->send();
         return $rst;
     }
@@ -136,7 +136,11 @@ class QuotationForm extends Model
         return QuotationChild::find()->where('Quotation_Number="'.$quotation_number.'"')->asArray()->all();
     }
     public function getPackage(){
-        return ArrayHelper::map(Packages::find()->all(), 'Package_ID', 'Package_Name');
+        return ArrayHelper::map(Packages::find()->all(), 'Package_Name', 'Package_Name');
+    }
+    public function getPackage2(){
+        $query = "SELECT * FROM packages";
+        return ArrayHelper::map(Packages::find()->all(), 'Package_Name', 'Package_Name');
     }
     
     public function getCustomes(){
@@ -144,7 +148,7 @@ class QuotationForm extends Model
     }
 
     public function getPrice($id){
-        return Packages::find()->where('Package_ID="'.$id.'"')->asArray()->one();
+        return Packages::find()->where('Package_Name="'.$id.'"')->asArray()->one();
     }
 
     public function savePackage_child($POST){
@@ -153,6 +157,9 @@ class QuotationForm extends Model
     public function removePackage_child($POST){
         $query = "DELETE FROM quotation_child WHERE Package_ID='".trim($POST['Packed_id'])."'";
         return Yii::$app->db->createCommand($query)->execute();
+    }
+    public function getPrice2($id){
+        return Packages::find()->where('Package_Name="'.$id.'"')->asArray()->one();
     }
     public function savePackage_master($POST){
         return Yii::$app->db->createCommand()->insert('quotation_master', $POST['QuotationForm'])->execute();

@@ -50,4 +50,9 @@ class Packages extends \yii\db\ActiveRecord
             'Price' => 'Price',
         ];
     }
+
+    
+    public function savePackageNew($POST){
+        return Yii::$app->db->createCommand()->insert('packages', $POST)->execute();
+    }
 }

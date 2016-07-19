@@ -36,14 +36,11 @@ $this->params['breadcrumbs'][] = $this->title;
                 'confirm' => 'Are you sure you want to delete this item?',
                 'method' => 'post',
             ],
-        ]) ?>
+        ]) ?>       
         <?= Html::a('<span class="glyphicon glyphicon-eye-open"></span> View Package Quotation', 
             ['quotationmaster/viewlist', 'quotation_number' => $model->Quotation_Number], [
             'class' => 'btn btn-info',
-            'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
-                'method' => 'post',
-            ],
+            
         ]) ?>
     </p>
 </div>

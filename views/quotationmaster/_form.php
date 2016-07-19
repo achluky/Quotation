@@ -36,7 +36,7 @@ use yii\widgets\ActiveForm;
 
     <?php if ($model->Attachment_File): ?>
         <div class="form-group">
-            <?= Html::a('File Name : '.$model->Attachment_File, ['/file', 'file' => $model->Attachment_File]) ?>
+            <?= Html::a('File Name : '.$model->Attachment_File, ['../upload/file/'.$model->Attachment_File]) ?>
         </div>
     <?php endif; ?>
 

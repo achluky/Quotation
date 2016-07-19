@@ -30,7 +30,7 @@ $this->params['breadcrumbs'][] = $this->title;
 			   <div class="col-sm-8">
 			       {input}
 			   </div>
-			   '])->textInput(['autofocus' => true, 'value'=>"Q-".date("dmYHims")]) ?>
+			   '])->textInput(['autofocus' => true, 'value'=>"Q-".date("Ym")]) ?>
 		<?php
 				echo '<div class="form-group field-quotationform-quotation_date required">';
 				echo '<div class="col-sm-4">
@@ -54,34 +54,22 @@ $this->params['breadcrumbs'][] = $this->title;
 			   <div class="col-sm-4">{label}</div>
 			   <div class="col-sm-8">
 			        {input}
-			   </div>'])->dropDownList($model->getCustomes(), ['prompt'=>'- Select -']) ?>
+			   </div>'])->dropDownList($model->getCustomes(), ['prompt'=>'- Please Select -']) ?>
         <?= $form->field($model, 'Sub_Customer_Name',['template' => '
 			   <div class="col-sm-4">{label}</div>
 			   <div class="col-sm-8">
 			        {input}
-			   </div>'])->dropDownList($model->getCustomes(), ['prompt'=>'- Select -']) ?>
+			   </div>'])->dropDownList($model->getCustomes(), ['prompt'=>'- Please Select -']) ?>
         <?= $form->field($model, 'Revision_Number', ['template' => '
 			   <div class="col-sm-4">{label}</div>
 			   <div class="col-sm-8">
 			        {input}
 			   </div>']) ?>
-		<?php
-				echo '<div class="form-group field-quotationform-analysis_time_agreed required">';
-				echo '<div class="col-sm-4">
-						<label class="col-lg-12 control-label" for="quotationform-analysis_time_agreed">Analysis Time Agreed</label>
-					  </div>';
-				echo '<div class="col-sm-8">';
-				echo '	<div id="data_1">
-                            <div class="input-group date">
-                                <span class="input-group-addon">
-                                	<i class="fa fa-calendar"></i>
-                                </span>
-                                <input type="text" class="form-control quotationform-analysis_time_agreed" name="QuotationForm[Analysis_Time_Agreed]" value="'.date("Y-m-d").'">
-                            </div>
-                        </div>';
-				echo '</div>
-					  </div>';
-		?>
+		<?= $form->field($model, 'Analysis_Time_Agreed', ['template' => '
+			   <div class="col-sm-4">{label}</div>
+			   <div class="col-sm-8">
+			        {input}
+			   </div>'])->dropDownList(['24'=>'24 Hours','48'=>'2 days','72'=>'3 days','336'=>'Up To 14 days'], ['prompt'=>'Please Select']) ?>
         <?= $form->field($model, 'Sales_Department', ['template' => '
 			   <div class="col-sm-4">{label}</div>
 			   <div class="col-sm-8">
@@ -134,11 +122,15 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= $form->field($model, 'Package_Name', ['template' => '
 			   	<div class="col-sm-4">{label}</div>
 			   	<div class="col-sm-8">
-			       <div class="col-sm-10 ">
+			       	<div class="col-sm-7" id="package_sync">
 			          {input}
-			   	</div>
+			   		</div>
+			   		<div class="col-sm-5">
+			   			<a data-toggle="modal" id="new_modal" href="#modal-form"><button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> New</button></a>
+			   			<a id="sync" href="#"><button type="button" class="btn btn-danger"><span class="glyphicon glyphicon-refresh"></span> Sycn</button></a>
+			   		</div>
 		       	</div>
-			    '])->dropDownList($model->getPackage(), ['prompt'=>'- Select -']); ?>
+			    '])->dropDownList($model->getPackage(), ['prompt'=>'- Please Select -']); ?>
         <?= $form->field($model, 'Laboratory_Service_Description', ['template' => '
 			   	<div class="col-sm-4">{label}</div>
 			   	<div class="col-sm-8">
@@ -155,6 +147,18 @@ $this->params['breadcrumbs'][] = $this->title;
 			   	</div>
 		       	</div>
 			    '])->textInput(); ?>
+
+		<?php 	echo '<div class="form-group">';
+				echo '<div class="col-sm-4">
+						<label class="col-lg-12 control-label">Urgent Analysis</label>
+					  </div>';
+				echo '<div class="col-sm-8">';
+				echo '	<div class="col-sm-10 ">
+                        	<label> <input type="checkbox" class="i-checks" id="urgent"></label>
+                        </div>';
+				echo '</div>
+					  </div>';
+		?>
 		<?= $form->field($model, 'Sales_Price', ['template' => '
 			   	<div class="col-sm-4">{label}</div>
 			   	<div class="col-sm-8">
@@ -162,7 +166,7 @@ $this->params['breadcrumbs'][] = $this->title;
 			          {input}
 			   	</div>
 		       	</div>
-			    '])->textInput(['type' => 'number','value' => '0']); ?>
+			    '])->textInput(['type' => 'text','value' => '0']); ?>
 		<?= $form->field($model, 'Sales_Quantity', ['template' => '
 			   	<div class="col-sm-4">{label}</div>
 			   	<div class="col-sm-8">
@@ -206,3 +210,48 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
 </div>
 
+
+<div id="modal-form" class="modal fade in" role="dialog" aria-labelledby="myModalLabel" style="display: none;">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+          <h4 class="modal-title" id="myModalLabel">New Package</h4>
+        </div>
+		
+		<div class="status_save"></div>
+
+        <div class="modal-body">
+        	<form id="form_new_package">
+			  <div class="form-group">
+			    <label for="exampleInputEmail1">Package Name</label>
+			    <input type="input" class="form-control" id="packages-package_name_new" name="Packages[Package_Name]" placeholder="Package Name" autofocus>
+			  </div>
+			  <div class="form-group">
+			    <label for="exampleInputEmail1">Short Package Name</label>
+			    <input type="input" class="form-control" id="packages-short_package_name_new" name="Packages[Short_Package_Name]" placeholder="Short Package Name">
+			  </div>
+			  <div class="form-group">
+			    <label for="exampleInputEmail1">Description</label>
+			    <textarea id="packages-description_new" class="form-control"  rows="6" name="Packages[Description]" placeholder="Description"></textarea>
+			  </div>
+			  <div class="form-group">
+			    <label for="exampleInputEmail1">Price</label>
+			    <input type="input" class="form-control" id="packages-price_new" placeholder="Price" name="Packages[Price]">
+			  </div>
+			  <div class="form-group">
+			    <label for="exampleInputPassword1">Price Urgent Analisys</label>
+			    <input type="input" class="form-control" id="packages-price_urgent_new" name="Packages[Price_2]" placeholder="Price Urgent Analisys">
+			  </div>
+			</form>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" id="save_package">Save Package</button>
+        </div>
+
+      </div>
+    </div>
+  </div>

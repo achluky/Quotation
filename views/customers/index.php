@@ -23,20 +23,18 @@ $this->params['breadcrumbs'][] = $this->title;
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-
-            'Customer_ID',
+            // 'Customer_ID',
             'Customer_Name',
-            'Customer_Short_Name',
+            // 'Customer_Short_Name',
             'Customer_Administrative_Address:ntext',
             'Office_Phone',
             // 'Office_Fax',
             // 'Customer_Factory',
             // 'Factory_Phone',
             // 'Factory_Fax',
-            // 'Office_Email:email',
+            'Office_Email:email',
             // 'Industrial_Sector',
             // 'NPWP',
-
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>

@@ -20,7 +20,9 @@ use app\assets\AppAsset;
     <link href="<?= Yii::getAlias('@web')?>/assets/lte/css/style.css" rel="stylesheet">
     <!-- <link href="<?= Yii::getAlias('@web')?>/assets/chosen/chosen.min.css" rel="stylesheet" >  -->
     <link href="<?= Yii::getAlias('@web')?>/assets/lte/css/plugins/chosen/chosen.css" rel="stylesheet" > 
-    <link href="<?= Yii::getAlias('@web')?>/assets/chosen/chosen-bootstrap.css" rel="stylesheet" > 
+    <link href="<?= Yii::getAlias('@web')?>/assets/chosen/chosen-bootstrap.css" rel="stylesheet" >
+    <!-- <link href="<?= Yii::getAlias('@web')?>/assets/lte/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css" rel="stylesheet" >  -->
+    <link href="<?= Yii::getAlias('@web')?>/assets/lte//css/plugins/iCheck/custom.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 <div id="wrapper">
@@ -52,8 +54,8 @@ use app\assets\AppAsset;
                 <li class="active">
                     <a href="#"><i class="fa fa-th-large"></i> <span class="nav-label">Quotation</span></a>
                     <ul class="nav nav-second-level collapse in">
-                        <li><a href="<?= Url::to(['/site/quotation'])?>">Form Quotation </a></li>
-                        <li><a href="<?= Url::to(['/quotationmaster/index'])?>">List Quotation </a></li>
+                        <li><a href="<?= Url::to(['/site/quotation'])?>">Quotation Form</a></li>
+                        <li><a href="<?= Url::to(['/quotationmaster/index'])?>">List Of Quotation </a></li>
                         <li><a href="<?= Url::to(['/packages/index'])?>">Packages</a></li>
                         <li><a href="<?= Url::to(['/customers/index'])?>">Customers</a></li>
                     </ul>
@@ -124,14 +126,22 @@ use app\assets\AppAsset;
 
 <!-- chosen  JS-->
 <script src="<?= Yii::getAlias('@web')?>/assets/chosen/chosen.jquery.js"></script>
+<script src="<?= Yii::getAlias('@web')?>/assets/chosen/ajax-chosen.js"></script>
 
 <!-- date js  -->
 <script src="<?= Yii::getAlias('@web')?>/assets/lte/js/plugins/datapicker/bootstrap-datepicker.js"></script>
 
+<!-- icheck -->
+<script src="<?= Yii::getAlias('@web')?>/assets/lte/js/plugins/iCheck/icheck.min.js"></script>
+
+<!-- jquery.maskMoney -->
+<script src="<?= Yii::getAlias('@web')?>/assets/lte/js/jquery.maskMoney.js"></script>
 
 <!-- main js  -->
 <script type="text/javascript">
 $(document).ready(function () {
+    // init package
+
     $( ".save-package" ).click(function() {
         var status_error = "<div class=\"alert alert-danger alert-dismissible fade in\" role=\"alert\">"+
                               "<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">×</span></button>";
@@ -153,6 +163,10 @@ $(document).ready(function () {
             return;
         };
         var quotationform_sales_price = $("#quotationform-sales_price").val(); 
+        var quotationform_sales_price = quotationform_sales_price.replace("Rp. ","");
+        var quotationform_sales_price = quotationform_sales_price.replace(".","");
+        var quotationform_sales_price = quotationform_sales_price.replace(".","");
+        var quotationform_sales_price = quotationform_sales_price.replace(".","");
         if (quotationform_sales_price=='') {
             $( ".status" ).append(status_error+"<p>Sales Price is NULL</p>"+status_error_end);
             return;
@@ -163,11 +177,19 @@ $(document).ready(function () {
             return;
         };
         var quotationform_discount = $("#quotationform-discount").val(); 
+        var quotationform_discount = quotationform_discount.replace("Rp. ","");
+        var quotationform_discount = quotationform_discount.replace(".","");
+        var quotationform_discount = quotationform_discount.replace(".","");
+        var quotationform_discount = quotationform_discount.replace(".","");
         if (quotationform_discount=='') {
             $( ".status" ).append(status_error+"<p>Discount is NULL</p>"+status_error_end);
             return;
         };
         var quotationform_price_discount = $("#quotationform-price_discount").val(); 
+        var quotationform_price_discount = quotationform_price_discount.replace("Rp. ","");
+        var quotationform_price_discount = quotationform_price_discount.replace(".","");
+        var quotationform_price_discount = quotationform_price_discount.replace(".","");
+        var quotationform_price_discount = quotationform_price_discount.replace(".","");
         var quotationform_notes = $("#quotationform-notes").val(); 
         if (quotationform_notes=='') {
             $( ".status" ).append(status_error+"<p>Notes is NULL</p>"+status_error_end);
@@ -188,10 +210,10 @@ $(document).ready(function () {
                 $("#quotationform-package_name").val(""); 
                 $("#quotationform-laboratory_service_description").val(""); 
                 $("#quotationform-temporary_lab_number").val(""); 
-                $("#quotationform-sales_price").val(""); 
-                $("#quotationform-sales_quantity").val(""); 
-                $("#quotationform-discount").val(""); 
-                $("#quotationform-price_discount").val(""); 
+                $("#quotationform-sales_price").val(0); 
+                $("#quotationform-sales_quantity").val(0); 
+                $("#quotationform-discount").val(0); 
+                $("#quotationform-price_discount").val(0); 
                 $("#quotationform-notes").val(""); 
                 $( ".status" ).append("<div class=\"alert alert-info alert-dismissible fade in\" role=\"alert\">"+
                       "<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">×</span></button>"+
@@ -199,7 +221,7 @@ $(document).ready(function () {
                       "<p>Package in Quotation Number ."+quotationform_quotation_number+" Save."+
                       "</p>"+
                     "</div>" );
-                $( ".list_package ul .well").append("<li><span class=\"m-21-xs\"><span class='glyphicon glyphicon-ok'></span></span> "+quotationform_package_name+" <div class=\"close_package\"  style=\"float:right;\"><span class=\"glyphicon glyphicon-remove-circle\"></span></div></li>");
+                $( ".list_package ul .well").append("<li><span class=\"m-21-xs\"><span class='glyphicon glyphicon-ok'></span></span> "+quotationform_package_name+"</li>");
             }else{
                 $( ".status" ).append( "<div class=\"alert alert-danger alert-dismissible fade in\" role=\"alert\">"+
                       "<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">×</span></button>"+
@@ -212,13 +234,27 @@ $(document).ready(function () {
     });
     $("#quotationform-sales_quantity").change(function() {
         var s = $("#quotationform-sales_price").val();
+        var s = s.replace("Rp. ","");
+        var s = s.replace(".","");
+        var s = s.replace(".","");
+        var s = s.replace(".","");
         var sq = $("#quotationform-sales_quantity").val();
         $("#quotationform-price_discount").val(s*sq);
+        $("#quotationform-price_discount").focus();
     });
     $("#quotationform-discount").change(function() {
         var d = $("#quotationform-discount").val();
+        var d = d.replace("Rp. ","");
+        var d = d.replace(".","");
+        var d = d.replace(".","");
+        var d = d.replace(".","");
         var pd = $("#quotationform-price_discount").val();
-        $("#quotationform-price_discount").val(pd-((d/100)*pd));
+        var pd = pd.replace("Rp. ","");
+        var pd = pd.replace(".","");
+        var pd = pd.replace(".","");
+        var pd = pd.replace(".","");
+        $("#quotationform-price_discount").val(pd-d);
+        $("#quotationform-price_discount").focus();
     });
     $("#quotationform-package_name").chosen();
     $("#quotationform-customer_name").chosen();
@@ -228,6 +264,7 @@ $(document).ready(function () {
         $.post( "<?= Url::to(['site/getprice'])?>", { Packed_id : packed_id },function( data ) {
             if (data.status) {
                 $("#quotationform-sales_price").val(data.price);
+                $("#quotationform-sales_price").focus();
             }
         }, "json");
     });
@@ -238,27 +275,6 @@ $(document).ready(function () {
         calendarWeeks: true,
         autoclose: true,
         format: "yyyy-mm-dd"
-
-    });
-
-    $('#quotationmaster-analysis_time_agreed').datepicker({
-        todayBtn: "linked",
-        keyboardNavigation: false,
-        forceParse: false,
-        calendarWeeks: true,
-        autoclose: true,
-        format: "yyyy-mm-dd"
-
-    });
-
-    $('#quotationmaster-quotation_date').datepicker({
-        todayBtn: "linked",
-        keyboardNavigation: false,
-        forceParse: false,
-        calendarWeeks: true,
-        autoclose: true,
-        format: "yyyy-mm-dd"
-
     });
     $( ".save-qotation" ).click(function() {
         var quotation_number = $("#quotationform-quotation_number").val();
@@ -300,7 +316,6 @@ $(document).ready(function () {
         };
         $("#quotation-form").submit();
     });
-
     $(".close_package").click(function() {
         var packed_id = $(".list_package li").text();
         $.post( "<?= Url::to(['site/quotation_removechild'])?>", { 
@@ -312,8 +327,82 @@ $(document).ready(function () {
 
             };
         }, "json");
-
     });
+    $('.i-checks').iCheck({
+        checkboxClass: 'icheckbox_square-green',
+        radioClass: 'iradio_square-green',
+        });
+    $('#quotationform-sales_price').maskMoney({prefix:'Rp. ', thousands:'.', decimal:',', precision:0});
+    $('#quotationform-discount').maskMoney({prefix:'Rp. ', thousands:'.', decimal:',', precision:0});
+    $('#quotationform-price_discount').maskMoney({prefix:'Rp. ', thousands:'.', decimal:',', precision:0});
+    $('#urgent').on('ifChecked', function(event){
+        var packed_id = $("#quotationform-package_name").val();
+        $.post( "<?= Url::to(['site/getprice2'])?>", { 
+                Packed_id: packed_id
+        },function( data ) {
+            if (data.status) {
+                $("#quotationform-sales_price").val(data.price);
+                $("#quotationform-sales_price").focus();
+            }else{};
+        }, "json");
+    });
+    $('#urgent').on('ifUnchecked', function(event){
+        var packed_id = $("#quotationform-package_name").val();
+        $.post( "<?= Url::to(['site/getprice'])?>", { 
+                Packed_id: packed_id
+        },function( data ) {
+            if (data.status) {
+                $("#quotationform-sales_price").val(data.price);
+                $("#quotationform-sales_price").focus();
+            }else{};
+        }, "json"); 
+    });
+
+    $('#new_modal').on('shown.bs.modal', function () {
+        $('#packages-package_name').focus();
+    })
+    $("#save_package").click(function(){
+        var package_name = $("#packages-package_name_new").val();
+        var short_package_name =$("#packages-short_package_name_new").val();
+        var description =$("#packages-description_new").val();
+        var price =$("#packages-price_new").val();
+        var price_urgent =$("#packages-price_urgent_new").val();
+
+        $.post( "<?= Url::to(['packages/createajax'])?>", { 
+                Package_Name: package_name,
+                Short_Package_Name: short_package_name,
+                Description: description,
+                Price: price,
+                Price_2: price_urgent
+        },function( data ) {
+            if (data.status) {
+                $(".status_save").append('<div class="alert alert-info" role="alert"><strong>Succsesfuly !.</strong> Click Sync</div>');
+            }else{};
+        }, "json");
+    })
+
+    // $("#package_sync").ajaxChosen({
+    //     type: 'GET',
+    //     url: '/ajax-chosen/data.php',
+    //     dataType: 'json'
+    // }, function (data) {
+    //     var results = [];
+    //     $.each(data, function (i, val) {
+    //         results.push({ value: val.value, text: val.text });
+    //     });
+    //     return results;
+    // });
+
+    $("#sync").click(function(){
+        $.ajax({
+             type: "post",
+             url: "<?= Url::to(['site/syncpackage'])?>",
+             success: function (response) {
+               document.getElementById("package_sync").innerHTML=response; 
+             }
+       });
+    });
+
 });
 </script>
 

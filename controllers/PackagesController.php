@@ -14,6 +14,7 @@ use yii\filters\VerbFilter;
  */
 class PackagesController extends Controller
 {
+    public $enableCsrfValidation = false;
     /**
      * @inheritdoc
      */
@@ -71,6 +72,18 @@ class PackagesController extends Controller
             return $this->render('create', [
                 'model' => $model,
             ]);
+        }
+    }
+
+    public function actionCreateajax()
+    {
+        $model = new Packages();
+        if (isset($_POST)) {
+            if($model->savePackageNew($_POST)){
+                echo json_encode(array('status'=>true, 'info'=> $_POST));
+            }else{
+                echo json_encode(array('status'=>false));
+            }
         }
     }
 
