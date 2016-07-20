@@ -159,43 +159,43 @@ class SiteController extends Controller
     public function actionSyncpackage(){
         $model = new QuotationForm();
         $rst = $model->getPackage();
-        // $arr = array();
-        // foreach ($rst as $key => $value) {
-        //     $arr_ = array();
-        //     $arr_[$key] = $value;
-        //     array_push($arr, $arr_);
-        // }
-        // echo json_encode($arr);
-
-        echo "
-        <!DOCTYPE html>
-            <html lang=''>
-            <head>
-                    <link href='".Yii::getAlias('@web')."/assets/lte/css/plugins/chosen/chosen.css' rel=\"stylesheet\">
-            </head>
-            <body>";
-
-        echo "
-                <select id=\"quotationform-package_name\" class=\"form-control\" name=\"QuotationForm[Package_Name]\">
-                    <option value=\"\">- Please Select -</option>
-        ";
-
+        $arr = array();
         foreach ($rst as $key => $value) {
-            echo "  <option value=\"".$key."\">".$value."</option>";
+            $arr_ = array();
+            $arr_[$key] = $value;
+            array_push($arr, $arr_);
         }
+        echo json_encode($arr);
 
-        echo "  </select>";
-        echo "
-                <script src='".Yii::getAlias('@web')."/assets/lte/js/jquery-2.1.1.js'></script>
-                <script src='".Yii::getAlias('@web')."/assets/chosen/chosen.jquery.js'></script>";
-        echo "
-                <script type=\"text/javascript\">
-                    $(document).ready(function () {
-                        $(\"#quotationform-package_name\").chosen();
-                    });
-              </script>";
-        echo "</body>
-        </html>";
+        // echo "
+        // <!DOCTYPE html>
+        //     <html lang=''>
+        //     <head>
+        //             <link href='".Yii::getAlias('@web')."/assets/lte/css/plugins/chosen/chosen.css' rel=\"stylesheet\">
+        //     </head>
+        //     <body>";
+
+        // echo "
+        //         <select id=\"quotationform-package_name\" class=\"form-control\" name=\"QuotationForm[Package_Name]\">
+        //             <option value=\"\">- Please Select -</option>
+        // ";
+
+        // foreach ($rst as $key => $value) {
+        //     echo "  <option value=\"".$key."\">".$value."</option>";
+        // }
+
+        // echo "  </select>";
+        // echo "
+        //         <script src='".Yii::getAlias('@web')."/assets/lte/js/jquery-2.1.1.js'></script>
+        //         <script src='".Yii::getAlias('@web')."/assets/chosen/chosen.jquery.js'></script>";
+        // echo "
+        //         <script type=\"text/javascript\">
+        //             $(document).ready(function () {
+        //                 $(\"#quotationform-package_name\").chosen();
+        //             });
+        //       </script>";
+        // echo "</body>
+        // </html>";
     }
 
 

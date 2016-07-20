@@ -155,7 +155,7 @@ class QuotationForm extends Model
         return Yii::$app->db->createCommand()->insert('quotation_child', $POST)->execute();
     }
     public function removePackage_child($POST){
-        $query = "DELETE FROM quotation_child WHERE Package_ID='".trim($POST['Packed_id'])."'";
+        $query = "DELETE FROM quotation_child WHERE Package_ID='".trim($POST['Packed_id'])."' AND Quotation_Number='".trim($POST['Quotation_Number'])."'";
         return Yii::$app->db->createCommand($query)->execute();
     }
     public function getPrice2($id){

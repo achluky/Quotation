@@ -30,7 +30,7 @@ $this->params['breadcrumbs'][] = $this->title;
 			   <div class="col-sm-8">
 			       {input}
 			   </div>
-			   '])->textInput(['autofocus' => true, 'value'=>"Q-".date("Ym")]) ?>
+			   '])->textInput(['autofocus' => true, 'value'=>"Q-".date("Ymdhi")]) ?>
 		<?php
 				echo '<div class="form-group field-quotationform-quotation_date required">';
 				echo '<div class="col-sm-4">
@@ -203,7 +203,6 @@ $this->params['breadcrumbs'][] = $this->title;
             <div class="col-lg-offset-4 col-lg-5">
             &nbsp;&nbsp;&nbsp;
             <?= Html::submitButton('Add', ['class' => 'btn btn-primary save-package', 'name' => 'contact-button']) ?>
-            <?= Html::Button('Remove', ['class' => 'btn btn-danger close_package', 'name' => 'contact-button']) ?>
            	<?= Html::resetButton('Reset', ['class' => 'btn btn-default', 'name' => 'reset-button']) ?>
             </div>
         </div>

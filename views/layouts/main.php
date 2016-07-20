@@ -142,7 +142,8 @@ use app\assets\AppAsset;
 $(document).ready(function () {
     // init package
 
-    $( ".save-package" ).click(function() {
+    $( ".save-package" ).click(function(e) {
+        e.preventDefault();
         var status_error = "<div class=\"alert alert-danger alert-dismissible fade in\" role=\"alert\">"+
                               "<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">×</span></button>";
         var status_error_end ="</div>";
@@ -219,9 +220,15 @@ $(document).ready(function () {
                       "<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">×</span></button>"+
                       "<h4>Succsesfuly!</h4>"+
                       "<p>Package in Quotation Number ."+quotationform_quotation_number+" Save."+
-                      "</p>"+
-                    "</div>" );
-                $( ".list_package ul .well").append("<li><span class=\"m-21-xs\"><span class='glyphicon glyphicon-ok'></span></span> "+quotationform_package_name+"</li>");
+                      "</p>");
+                $( ".list_package ul .well").append("<li>"+
+                                                        "<span class=\"m-21-xs\">"+
+                                                            "<span class='glyphicon glyphicon-ok'></span>"+
+                                                        "</span> "+quotationform_package_name+
+                                                        "<div class=\"close_package\"  style=\"float:right;\">"+
+                                                            "<span class=\"glyphicon glyphicon-remove-circle\"></span>"+
+                                                        "</div>"+
+                                                    "</li>");
             }else{
                 $( ".status" ).append( "<div class=\"alert alert-danger alert-dismissible fade in\" role=\"alert\">"+
                       "<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">×</span></button>"+
@@ -232,6 +239,22 @@ $(document).ready(function () {
             };
         }, "json");
     });
+    
+    $('.list_package ul .well').on('click', '.close_package', function(e) {
+        e.preventDefault();
+        var packed_id = $(this).parent().text();
+        var quotationform_quotation_number = $("#quotationform-quotation_number").val(); 
+        $.post( "<?= Url::to(['site/quotation_removechild'])?>", { 
+                Packed_id: packed_id,
+                Quotation_Number:quotationform_quotation_number
+        },function( data ) {
+            if (data.status) {
+                $(e.currentTarget).parent().remove();
+                // $(this).parent().remove();
+            }else{};
+        }, "json");
+    });
+
     $("#quotationform-sales_quantity").change(function() {
         var s = $("#quotationform-sales_price").val();
         var s = s.replace("Rp. ","");
@@ -268,6 +291,7 @@ $(document).ready(function () {
             }
         }, "json");
     });
+
     $('#data_1 .input-group.date').datepicker({
         todayBtn: "linked",
         keyboardNavigation: false,
@@ -315,18 +339,6 @@ $(document).ready(function () {
             return;
         };
         $("#quotation-form").submit();
-    });
-    $(".close_package").click(function() {
-        var packed_id = $(".list_package li").text();
-        $.post( "<?= Url::to(['site/quotation_removechild'])?>", { 
-                Packed_id: packed_id
-        },function( data ) {
-            if (data.status) {
-                $( ".list_package li" ).remove();
-            }else{
-
-            };
-        }, "json");
     });
     $('.i-checks').iCheck({
         checkboxClass: 'icheckbox_square-green',
@@ -381,17 +393,20 @@ $(document).ready(function () {
         }, "json");
     })
 
-    // $("#package_sync").ajaxChosen({
-    //     type: 'GET',
-    //     url: '/ajax-chosen/data.php',
-    //     dataType: 'json'
-    // }, function (data) {
-    //     var results = [];
-    //     $.each(data, function (i, val) {
-    //         results.push({ value: val.value, text: val.text });
-    //     });
-    //     return results;
-    // });
+
+    $("#sync").click(function(){
+        $("#package_sync").ajaxChosen({
+            type: 'POST',
+            url: '<?= Url::to(['site/syncpackage'])?>',
+            dataType: 'json'
+        }, function (data) {
+            var results = [];
+            $.each(data, function (i, val) {
+                results.push({ value: val.value, text: val.text });
+            });
+            return results;
+        });
+    });
 
     $("#sync").click(function(){
         $.ajax({
