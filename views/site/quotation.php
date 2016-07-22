@@ -13,7 +13,6 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 
 <div class="col-md-6">
-
 	<div class="status_master"></div>
 	<?php $form = ActiveForm::begin(
 		[
@@ -30,7 +29,7 @@ $this->params['breadcrumbs'][] = $this->title;
 			   <div class="col-sm-8">
 			       {input}
 			   </div>
-			   '])->textInput(['autofocus' => true, 'value'=>"Q-".date("Ymdhi")]) ?>
+			   '])->textInput(['autofocus' => true, 'value'=>"Q-201607220119"]) ?>
 		<?php
 				echo '<div class="form-group field-quotationform-quotation_date required">';
 				echo '<div class="col-sm-4">
@@ -54,27 +53,27 @@ $this->params['breadcrumbs'][] = $this->title;
 			   <div class="col-sm-4">{label}</div>
 			   <div class="col-sm-8">
 			        {input}
-			   </div>'])->dropDownList($model->getCustomes(), ['prompt'=>'- Please Select -']) ?>
+			   </div>'])->dropDownList($model->getCustomes(), ['prompt'=>'- Please Select -', 'options'=>['ahmadluky@apps.ipb.ac.id'=>['Selected'=>true]]]) ?>
         <?= $form->field($model, 'Sub_Customer_Name',['template' => '
 			   <div class="col-sm-4">{label}</div>
 			   <div class="col-sm-8">
 			        {input}
-			   </div>'])->dropDownList($model->getCustomes(), ['prompt'=>'- Please Select -']) ?>
+			   </div>'])->dropDownList($model->getCustomes(), ['prompt'=>'- Please Select -', 'options'=>['ahmadluky@apps.ipb.ac.id'=>['Selected'=>true]]]) ?>
         <?= $form->field($model, 'Revision_Number', ['template' => '
 			   <div class="col-sm-4">{label}</div>
 			   <div class="col-sm-8">
 			        {input}
-			   </div>']) ?>
+			   </div>'])->textInput(['value'=>"Q-201607220119"]) ?>
 		<?= $form->field($model, 'Analysis_Time_Agreed', ['template' => '
 			   <div class="col-sm-4">{label}</div>
 			   <div class="col-sm-8">
 			        {input}
-			   </div>'])->dropDownList(['24'=>'24 Hours','48'=>'2 days','72'=>'3 days','336'=>'Up To 14 days'], ['prompt'=>'Please Select']) ?>
+			   </div>'])->dropDownList(['24'=>'24 Hours','48'=>'2 days','72'=>'3 days','336'=>'Up To 14 days'], ['prompt'=>'Please Select', 'options'=>['24'=>['Selected'=>true]]]) ?>
         <?= $form->field($model, 'Sales_Department', ['template' => '
 			   <div class="col-sm-4">{label}</div>
 			   <div class="col-sm-8">
 			        {input}
-			   </div>'])->dropDownList(['LUBRICANT'=>'LUBRICANT','EVIRO'=>'EVIRO','TRAVO'=>'TRAVO','CALIBRATION'=>'CALIBRATION'], ['prompt'=>'- Select -']) ?>
+			   </div>'])->dropDownList(['LUBRICANT'=>'LUBRICANT','EVIRO'=>'EVIRO','TRAVO'=>'TRAVO','CALIBRATION'=>'CALIBRATION'], ['prompt'=>'- Select -', 'options'=>['EVIRO'=>['Selected'=>true]]]) ?>
         <?= $form->field($model, 'Petrolab_PIC', ['template' => '
 			   <div class="col-sm-4">{label}</div>
 			   <div class="col-sm-8">
@@ -119,7 +118,6 @@ $this->params['breadcrumbs'][] = $this->title;
 	<hr/>
 	<div class="status"></div>
 	<div class="form-horizontal">
-    	
 		<div class="form-group">
 			<div class="col-sm-4">
 				<label class="col-lg-12 control-label">&nbsp;</label>
@@ -131,7 +129,6 @@ $this->params['breadcrumbs'][] = $this->title;
 				</div>
 			</div>
 		</div>
-		
 	    <?= $form->field($model, 'Package_Name', ['template' => '
 			   	<div class="col-sm-4">{label}</div>
 			   	<div class="col-sm-8">
@@ -156,7 +153,6 @@ $this->params['breadcrumbs'][] = $this->title;
 			   	</div>
 		       	</div>
 			    '])->textInput(); ?>
-
 		<div class="form-group">
 			<div class="col-sm-4">
 				<label class="col-lg-12 control-label">Urgent Analysis</label>
@@ -167,7 +163,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 </div>
 			</div>
 		</div>
-		
 		<?= $form->field($model, 'Sales_Price', ['template' => '
 			   	<div class="col-sm-4">{label}</div>
 			   	<div class="col-sm-8">
@@ -218,18 +213,14 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
 </div>
 
-
 <div id="modal-form" class="modal fade in" role="dialog" aria-labelledby="myModalLabel" style="display: none;">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
-
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
           <h4 class="modal-title" id="myModalLabel">New Package</h4>
         </div>
-		
 		<div class="status_save"></div>
-
         <div class="modal-body">
         	<form id="form_new_package">
 			  <div class="form-group">
@@ -253,13 +244,11 @@ $this->params['breadcrumbs'][] = $this->title;
 			    <input type="input" class="form-control" id="packages-price_urgent_new" name="Packages[Price_2]" placeholder="Price Urgent Analisys">
 			  </div>
 			</form>
-
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
           <button type="button" class="btn btn-primary" id="save_package">Save Package</button>
         </div>
-
       </div>
     </div>
   </div>
