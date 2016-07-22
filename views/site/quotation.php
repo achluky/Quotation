@@ -119,22 +119,31 @@ $this->params['breadcrumbs'][] = $this->title;
 	<hr/>
 	<div class="status"></div>
 	<div class="form-horizontal">
-        <?= $form->field($model, 'Package_Name', ['template' => '
+    	
+		<div class="form-group">
+			<div class="col-sm-4">
+				<label class="col-lg-12 control-label">&nbsp;</label>
+			</div>
+			<div class="col-sm-8">
+				<div class="col-sm-12">
+					<a data-toggle="modal" id="new_modal" href="#modal-form"><button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> New</button></a>
+					<a id="sync" href="#"><button type="button" class="btn btn-danger"><span class="glyphicon glyphicon-refresh"></span> Sycn</button></a>
+				</div>
+			</div>
+		</div>
+		
+	    <?= $form->field($model, 'Package_Name', ['template' => '
 			   	<div class="col-sm-4">{label}</div>
 			   	<div class="col-sm-8">
-			       	<div class="col-sm-7" id="package_sync">
+			       	<div class="col-sm-12" id="package_sync">
 			          {input}
-			   		</div>
-			   		<div class="col-sm-5">
-			   			<a data-toggle="modal" id="new_modal" href="#modal-form"><button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> New</button></a>
-			   			<a id="sync" href="#"><button type="button" class="btn btn-danger"><span class="glyphicon glyphicon-refresh"></span> Sycn</button></a>
 			   		</div>
 		       	</div>
 			    '])->dropDownList($model->getPackage(), ['prompt'=>'- Please Select -']); ?>
         <?= $form->field($model, 'Laboratory_Service_Description', ['template' => '
 			   	<div class="col-sm-4">{label}</div>
 			   	<div class="col-sm-8">
-			       <div class="col-sm-10 ">
+			       <div class="col-sm-12 ">
 			          {input}
 			   	</div>
 		       	</div>
@@ -142,27 +151,27 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= $form->field($model, 'Temporary_Lab_Number', ['template' => '
 			   	<div class="col-sm-4">{label}</div>
 			   	<div class="col-sm-8">
-			       <div class="col-sm-10 ">
+			       <div class="col-sm-12">
 			          {input}
 			   	</div>
 		       	</div>
 			    '])->textInput(); ?>
 
-		<?php 	echo '<div class="form-group">';
-				echo '<div class="col-sm-4">
-						<label class="col-lg-12 control-label">Urgent Analysis</label>
-					  </div>';
-				echo '<div class="col-sm-8">';
-				echo '	<div class="col-sm-10 ">
-                        	<label> <input type="checkbox" class="i-checks" id="urgent"></label>
-                        </div>';
-				echo '</div>
-					  </div>';
-		?>
+		<div class="form-group">
+			<div class="col-sm-4">
+				<label class="col-lg-12 control-label">Urgent Analysis</label>
+			</div>
+			<div class="col-sm-8">
+				<div class="col-sm-12">
+                	<label> <input type="checkbox" class="i-checks" id="urgent"></label>
+                </div>
+			</div>
+		</div>
+		
 		<?= $form->field($model, 'Sales_Price', ['template' => '
 			   	<div class="col-sm-4">{label}</div>
 			   	<div class="col-sm-8">
-			       <div class="col-sm-10 ">
+			       <div class="col-sm-12">
 			          {input}
 			   	</div>
 		       	</div>
@@ -170,7 +179,7 @@ $this->params['breadcrumbs'][] = $this->title;
 		<?= $form->field($model, 'Sales_Quantity', ['template' => '
 			   	<div class="col-sm-4">{label}</div>
 			   	<div class="col-sm-8">
-			       <div class="col-sm-10 ">
+			       <div class="col-sm-12">
 			          {input}
 			   	</div>
 		       	</div>
@@ -178,7 +187,7 @@ $this->params['breadcrumbs'][] = $this->title;
 		<?= $form->field($model, 'Discount', ['template' => '
 			   	<div class="col-sm-4">{label}</div>
 			   	<div class="col-sm-8">
-			       <div class="col-sm-10 ">
+			       <div class="col-sm-12">
 			          {input}
 			   	</div>
 		       	</div>
@@ -186,7 +195,7 @@ $this->params['breadcrumbs'][] = $this->title;
 		<?= $form->field($model, 'Price_Discount', ['template' => '
 			   	<div class="col-sm-4">{label}</div>
 			   	<div class="col-sm-8">
-			       <div class="col-sm-10 ">
+			       <div class="col-sm-12">
 			          {input}
 			   	</div>
 		       	</div>
@@ -194,7 +203,7 @@ $this->params['breadcrumbs'][] = $this->title;
 		<?= $form->field($model, 'Notes', ['template' => '
 			   	<div class="col-sm-4">{label}</div>
 			   	<div class="col-sm-8">
-			       <div class="col-sm-10 ">
+			       <div class="col-sm-12">
 			          {input}
 			   	</div>
 		       	</div>
