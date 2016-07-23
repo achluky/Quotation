@@ -99,7 +99,11 @@ class SiteController extends Controller
             if ($model->uploadFile()) {
                 if($model->savePackage_master($_POST)){
                     $rst = $model->quotation_email($_POST, $model->Attachment_File);
-                    return $this->redirect(['quotationresult']);
+                    if ($rst) {
+                        return $this->redirect(['quotationresult']);
+                    }else{
+                        return $this->redirect(['quotationmaster/view?id='.trim($_POST['QuotationForm']['Quotation_Number']).'&email=false']);
+                    }
                 }else{
                     Yii::$app->session->setFlash('contactFormSubmitted');
                     return $this->refresh();

@@ -12,6 +12,11 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="quotation-master-view">
     <!-- <h1><?= Html::encode($this->title) ?></h1> -->
+    <?php 
+        if (isset($_GET['email']) and $_GET['email']=='true') {
+            echo "<div class=\"alert alert-danger\">Email pada Quotation <b>".$_GET['id']."</b> gagal terkirim. Klik <b>'Send Email'</b> untuk mengirim ulang.</div>";
+        }
+    ?>
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
@@ -40,6 +45,11 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a('<span class="glyphicon glyphicon-eye-open"></span> View Package Quotation', 
             ['quotationmaster/viewlist', 'quotation_number' => $model->Quotation_Number], [
             'class' => 'btn btn-info',
+            
+        ]) ?>
+        <?= Html::a('<span class="glyphicon glyphicon-envelope"></span> Send Email', 
+            ['quotationmaster/viewlist', 'quotation_number' => $model->Quotation_Number], [
+            'class' => 'btn btn-primary',
             
         ]) ?>
     </p>

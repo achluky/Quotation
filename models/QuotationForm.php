@@ -86,10 +86,11 @@ class QuotationForm extends Model
     public function quotation_email($POST)
     {
         $POST = $POST['QuotationForm'];
-        $subject = "Petrolab Quotation #".$POST['Quotation_Number']."#".$POST['Customer_Name']."";
-        $str = file_get_contents( \Yii::getAlias('@webroot').'/../doc/action.html');
+        $subject = "Petrolab Quotation #".$POST['Quotation_Number']."-".date("His")."";
+        $str = file_get_contents( \Yii::getAlias('@webroot').'/../doc/Test.html');
+        $str = str_replace("%PIC%", strtoupper($POST['Petrolab_PIC']), $str);
         $str = str_replace("%Quotation_Number%", $POST['Quotation_Number'], $str);
-        $str = str_replace("%Quotation_Date%", $POST['Quotation_Date'], $str);
+        $str = str_replace("%Quotation_Date%", date("d-m-Y", strtotime($POST['Quotation_Date'])), $str);
         $str = str_replace("%Customer_Name%", $POST['Customer_Name'], $str);
         $str = str_replace("%Revision_Number%", $POST['Revision_Number'], $str);
         $str = str_replace("%Petrolab_PIC%", $POST['Petrolab_PIC'], $str);
@@ -99,30 +100,32 @@ class QuotationForm extends Model
         $tabel = '';
         $sum_price=0;
         $sum_total_price=0;
+        $jumlah_desimal ="2";
+        $pemisah_desimal =",";
+        $pemisah_ribuan =".";
         foreach ($q_child as $i => $child) {
             $tabel .= ' <tr>
-                            <td>'.++$i.'</td>
-                            <td>'.$child['Package_ID'].'</td>
-                            <td>'.$child['Laboratory_Service_Description'].'</td>
-                            <td style="text-align:center;">'.$child['Sales_Quantity'].'</td>
-                            <td style="text-align:center;">'.$child['Sales_Price'].'</td>
-                            <td style="text-align:center;">'.$child['Price_Discount'].'</td>
+                            <td style="color:#545454;font-family:\'Helvetica Neue\',Arial,sans-serif;font-size:13px;overflow:hidden;padding:3px 10px 0px 20px;text-align:right;vertical-align:top">'.++$i.'</td>
+                            <td style="color:#545454;font-family:\'Helvetica Neue\',Arial,sans-serif;font-size:13px;overflow:hidden;padding:3px 10px 0px 20px;text-align:right;vertical-align:top">'.$child['Package_ID'].'</td>
+                            <td style="color:#545454;font-family:\'Helvetica Neue\',Arial,sans-serif;font-size:13px;overflow:hidden;padding:3px 10px 0px 20px;text-align:right;vertical-align:top">'.$child['Laboratory_Service_Description'].'</td>
+                            <td style="color:#545454;font-family:\'Helvetica Neue\',Arial,sans-serif;font-size:13px;overflow:hidden;padding:3px 10px 0px 20px;text-align:right;vertical-align:top">'.$child['Sales_Quantity'].'</td>
+                            <td style="color:#545454;font-family:\'Helvetica Neue\',Arial,sans-serif;font-size:13px;overflow:hidden;padding:3px 10px 0px 20px;text-align:right;vertical-align:top">Rp. '.number_format($child['Sales_Price'], $jumlah_desimal, $pemisah_desimal, $pemisah_ribuan).'</td>
+                            <td style="color:#545454;font-family:\'Helvetica Neue\',Arial,sans-serif;font-size:13px;overflow:hidden;padding:3px 10px 0px 20px;text-align:right;vertical-align:top">Rp. '.number_format($child['Price_Discount'], $jumlah_desimal, $pemisah_desimal, $pemisah_ribuan).'</td>
                         </tr>';
                         $sum_price += $child['Sales_Price'];
                         $sum_total_price += $child['Price_Discount'];
         }
         
-        $tabel .= ' <tr class="total">
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td style="text-align:center;">'.$sum_price.'</td>
-                        <td style="text-align:center;">'.$sum_total_price.'</td>
+        $tabel .= ' <tr class="total" style="border-top: 1px solid;">
+                        <td style="color:#545454;font-family:\'Helvetica Neue\',Arial,sans-serif;font-size:13px;overflow:hidden;padding:3px 10px 0px 20px;text-align:right;vertical-align:top"></td>
+                        <td style="color:#545454;font-family:\'Helvetica Neue\',Arial,sans-serif;font-size:13px;overflow:hidden;padding:3px 10px 0px 20px;text-align:right;vertical-align:top"></td>
+                        <td style="color:#545454;font-family:\'Helvetica Neue\',Arial,sans-serif;font-size:13px;overflow:hidden;padding:3px 10px 0px 20px;text-align:right;vertical-align:top"></td>
+                        <td style="color:#545454;font-family:\'Helvetica Neue\',Arial,sans-serif;font-size:13px;overflow:hidden;padding:3px 10px 0px 20px;text-align:right;vertical-align:top"></td>
+                        <td style="color:#545454;font-family:\'Helvetica Neue\',Arial,sans-serif;font-size:13px;overflow:hidden;padding:3px 10px 0px 20px;text-align:right;vertical-align:top">Rp. '.number_format($sum_price, $jumlah_desimal, $pemisah_desimal, $pemisah_ribuan).'</td>
+                        <td style="color:#545454;font-family:\'Helvetica Neue\',Arial,sans-serif;font-size:13px;overflow:hidden;padding:3px 10px 0px 20px;text-align:right;vertical-align:top">Rp. '.number_format($sum_total_price, $jumlah_desimal, $pemisah_desimal, $pemisah_ribuan).'</td>
                     </tr>';
-
         $str = str_replace("%tabel%", $tabel, $str);
-        $rst = Yii::$app->mailer->compose('layouts/html')
+        $rst = Yii::$app->mailer->compose()
             ->setTo(trim($POST['Customer_Name']))
             ->setFrom(["luky.lucky24@gmail.com" => "no reply"])
             ->setSubject($subject)
@@ -162,6 +165,7 @@ class QuotationForm extends Model
         return Packages::find()->where('Package_Name="'.$id.'"')->asArray()->one();
     }
     public function savePackage_master($POST){
-        return Yii::$app->db->createCommand()->insert('quotation_master', $POST['QuotationForm'])->execute();
+        //return Yii::$app->db->createCommand()->insert('quotation_master', $POST['QuotationForm'])->execute();
+        return true;
     }
 }

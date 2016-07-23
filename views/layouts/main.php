@@ -196,6 +196,12 @@ $(document).ready(function () {
             $( ".status" ).append(status_error+"<p>Notes is NULL</p>"+status_error_end);
             return;
         };
+        var quotationform_file = $("#quotationform-attachment_file").val(); 
+        alert(quotationform_file);
+        if (quotationform_file=='') {
+            $( ".status" ).append(status_error+"<p>File Add is NULL</p>"+status_error_end);
+            return;
+        };
         $.post( "<?= Url::to(['site/quotation_child'])?>", { 
                 Quotation_Number: quotationform_quotation_number,
                 Package_ID: quotationform_package_name, 
@@ -239,7 +245,6 @@ $(document).ready(function () {
             };
         }, "json");
     });
-    
     $('.list_package ul .well').on('click', '.close_package', function(e) {
         e.preventDefault();
         var packed_id = $(this).parent().text();
@@ -254,7 +259,6 @@ $(document).ready(function () {
             }else{};
         }, "json");
     });
-
     $("#quotationform-sales_quantity").change(function() {
         var s = $("#quotationform-sales_price").val();
         var s = s.replace("Rp. ","");
@@ -291,7 +295,6 @@ $(document).ready(function () {
             }
         }, "json");
     });
-
     $('#data_1 .input-group.date').datepicker({
         todayBtn: "linked",
         keyboardNavigation: false,
@@ -373,13 +376,23 @@ $(document).ready(function () {
     $('#new_modal').on('shown.bs.modal', function () {
         $('#packages-package_name').focus();
     })
+    // new package
+    $('.packages-price_new').maskMoney({prefix:'Rp. ', thousands:'.', decimal:',', precision:0});
+    $('.packages-price_urgent_new').maskMoney({prefix:'Rp. ', thousands:'.', decimal:',', precision:0});
     $("#save_package").click(function(){
         var package_name = $("#packages-package_name_new").val();
         var short_package_name =$("#packages-short_package_name_new").val();
         var description =$("#packages-description_new").val();
         var price =$("#packages-price_new").val();
+        var price = price.replace("Rp. ","");
+        var price = price.replace(".","");
+        var price = price.replace(".","");
+        var price = price.replace(".","");
         var price_urgent =$("#packages-price_urgent_new").val();
-
+        var price_urgent = price_urgent.replace("Rp. ","");
+        var price_urgent = price_urgent.replace(".","");
+        var price_urgent = price_urgent.replace(".","");
+        var price_urgent = price_urgent.replace(".","");
         $.post( "<?= Url::to(['packages/createajax'])?>", { 
                 Package_Name: package_name,
                 Short_Package_Name: short_package_name,
@@ -392,8 +405,6 @@ $(document).ready(function () {
             }else{};
         }, "json");
     })
-
-
     $("#sync").click(function(){
         $("#package_sync").ajaxChosen({
             type: 'POST',
@@ -407,7 +418,6 @@ $(document).ready(function () {
             return results;
         });
     });
-
     $("#sync").click(function(){
         $.ajax({
              type: "post",
@@ -417,7 +427,6 @@ $(document).ready(function () {
              }
        });
     });
-
 });
 </script>
 
