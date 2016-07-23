@@ -12,6 +12,10 @@ $this->title = 'Quotation';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
+<div class="alert alert-info">
+	<center><a class="alert-link" href="#"><h3>This Application Under Development</h3></a></center>
+</div>
+
 <div class="col-md-6">
 	<div class="status_master"></div>
 	<?php $form = ActiveForm::begin(
@@ -105,7 +109,7 @@ $this->params['breadcrumbs'][] = $this->title;
 		?>
         <div class="form-group">
             <div class="col-lg-offset-4 col-lg-11">
-            <?= Html::Button('Save', ['class' => 'btn btn-primary save-qotation', 'name' => 'save-button']) ?>
+            <?= Html::Button('<span class="glyphicon glyphicon-floppy-disk"></span> Save', ['class' => 'btn btn-primary save-qotation', 'name' => 'save-button']) ?>
             <?= Html::resetButton('Reset', ['class' => 'btn btn-default', 'name' => 'reset-button']) ?>
             </div>
         </div>
@@ -206,7 +210,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="form-group">
             <div class="col-lg-offset-4 col-lg-5">
             &nbsp;&nbsp;&nbsp;
-            <?= Html::submitButton('Add', ['class' => 'btn btn-primary save-package', 'name' => 'contact-button']) ?>
+            <?= Html::submitButton('<span class="glyphicon glyphicon-plus"></span> Add', ['class' => 'btn btn-primary save-package', 'name' => 'contact-button']) ?>
            	<?= Html::resetButton('Reset', ['class' => 'btn btn-default', 'name' => 'reset-button']) ?>
             </div>
         </div>
