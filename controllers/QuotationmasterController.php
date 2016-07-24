@@ -37,7 +37,6 @@ class QuotationmasterController extends Controller
     {
         $searchModel = new QuotationMasterSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,

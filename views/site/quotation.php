@@ -226,6 +226,9 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
 </div>
 
+<div  class="col-md-12">
+	<hr/>
+</div>
 <div id="modal-form" class="modal fade in" role="dialog" aria-labelledby="myModalLabel" style="display: none;">
     <div class="modal-dialog" role="document">
       <div class="modal-content">

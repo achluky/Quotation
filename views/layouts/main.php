@@ -26,7 +26,7 @@ use app\assets\AppAsset;
 </head>
 <body>
 <div id="wrapper">
-
+    <!-- Navigation -->
     <nav class="navbar-default navbar-static-side" role="navigation">
         <div class="sidebar-collapse">
             <ul class="nav metismenu" id="side-menu">
@@ -39,7 +39,7 @@ use app\assets\AppAsset;
                                     <?= strtoupper (Yii::$app->user->identity->username )?>    
                                 </strong>
                             </span> 
-                            <span class="text-muted text-xs block">Art Director <b class="caret"></b></span>
+                            <span class="text-muted text-xs block">Quotation User<b class="caret"></b></span>
                             </span> </a>
                                 <?php  if(!Yii::$app->user->isGuest){ ?>
                                     <ul class="dropdown-menu animated fadeInRight m-t-xs">
@@ -48,7 +48,7 @@ use app\assets\AppAsset;
                                 <?php } ?>
                     </div>
                     <div class="logo-element">
-                        IN+
+                        Q +
                     </div>
                 </li>
                 <li class="active">
@@ -61,7 +61,6 @@ use app\assets\AppAsset;
                     </ul>
                 </li>
             </ul>
-
         </div>
     </nav>
 
@@ -196,12 +195,12 @@ $(document).ready(function () {
             $( ".status" ).append(status_error+"<p>Notes is NULL</p>"+status_error_end);
             return;
         };
-        var quotationform_file = $("#quotationform-attachment_file").val(); 
-        alert(quotationform_file);
-        if (quotationform_file=='') {
-            $( ".status" ).append(status_error+"<p>File Add is NULL</p>"+status_error_end);
-            return;
-        };
+        // var quotationform_file = $("#quotationform-attachment_file").val(); 
+        // alert(quotationform_file);
+        // if (quotationform_file=='') {
+        //     $( ".status" ).append(status_error+"<p>File Add is NULL</p>"+status_error_end);
+        //     return;
+        // };
         $.post( "<?= Url::to(['site/quotation_child'])?>", { 
                 Quotation_Number: quotationform_quotation_number,
                 Package_ID: quotationform_package_name, 
